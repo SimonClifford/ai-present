@@ -1,0 +1,86 @@
+---
+title: "An AI tool for Dementia"
+#subtitle: "It's containers all the way down"
+author: "Simon Clifford"
+institute: "University of Cambridge"
+date: "2024-10-17"
+date-format: "Do MMMM YYYY"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: images/quarto.png
+    css: styles.css
+    footer: <https://quarto.org>
+resources:
+  - demo.pdf
+---
+
+## Explain AID
+
+- Go through workflow (Mermaid pics?)
+- Explain state of software at start of project
+- Note Docker container, with unsourced code
+- Perhaps first block diagram
+
+## Should separate the old bits from web-facing bits
+- Another container
+
+## Web app
+- Rationale for web service
+- Flask
+  - WSGI
+
+## Database
+- App needs users, authentication
+  - Somewhere to store usernames, hashes, requests
+  - _Could_ use SQLite but gives problems later
+  - Really like to use PostgreSQL
+    - Have to assume user has it installed?
+    - No!  Another container!
+
+## Cognitive Scores
+- REDCap DB
+
+## Images
+- Prototype was handed images
+- We need to get them from PACS
+  - Explain PACS
+  - Explain DICOM
+  - Pynetdicom
+  - Show search page of app?
+  - Conversion to NIFTI
+  - Segmentation
+
+## Segmentation slow
+- Asynchronous web request
+- User submits, goes away
+- Req keeps going
+- Celery!
+  - But celery needs a broker.
+  - Redis
+  - Have to assume user has it installed?
+  - No! Another container!
+
+## Need SSL to keep secret
+- WSGI hosters not always great at that
+- Plus host may already do this
+- Optional SSL bit then, reverse proxy, nginx
+- WHERE CAN IT GO?
+
+## What about testing?
+- Can't test against live PACS, want to test PACS parts
+- Mocking?  But this is the hard bit
+- Could run a test PACS with safe data
+- Oh ho ho
+
+## docker-compose
+- Show file
+- Fun fact: docker compose inside a container will use the local container's `docker-compose.yml`
+  but files referred to from that compose file are looked for _on the host_.
+
+::: footer
+Learn more: [Quarto Presentations](https://quarto.org/docs/presentations/revealjs/)
+:::
