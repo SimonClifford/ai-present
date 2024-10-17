@@ -11,19 +11,43 @@ format:
     chalkboard: 
       buttons: false
     preview-links: auto
-    logo: images/quarto.png
+    logo: "images/Colour logo RGB_DM.jpg"
     css: styles.css
-    footer: <https://quarto.org>
-resources:
-  - demo.pdf
+    theme: [default,mytheme.scss]
+    mermaid-format: svg
+title-slide-attributes:
+    data-background-image: images/intended_layout.svg
+    data-background-size: "60%"
+    data-background-repeat: repeat
+    data-background-opacity: "0.5"
 ---
 
-## Explain AID
+## What is AI Dementia?
 
-- Go through workflow (Mermaid pics?)
-- Explain state of software at start of project
-- Note Docker container, with unsourced code
-- Perhaps first block diagram
+::: {.notes}
+Inherited the project from an earlier incarnation developed by Piero and Matt.
+:::
+
+The method^1,2^
+uses a machine learning (ML) algorithm trained on brain images (MRIs) and cognitive
+scores to give a prognostic score of the likelihood of the patient having Alzheimer's.
+
+::: footer
+1: https://doi.org/10.1016/j.nicl.2020.102199
+
+2: https://doi.org/10.1101/2020.08.15.252601
+:::
+
+```{mermaid}
+%%| fig-width: 1000.0px
+%%| fig-height: 400.0px
+graph LR
+A[Brain MRI] --> B[Gray Matter]
+B --> C[ML Model]
+D[Cognitive Scores] --> C
+```
+
+## Note Docker container, with unsourced code
 
 ## Should separate the old bits from web-facing bits
 - Another container
@@ -80,7 +104,3 @@ resources:
 - Show file
 - Fun fact: docker compose inside a container will use the local container's `docker-compose.yml`
   but files referred to from that compose file are looked for _on the host_.
-
-::: footer
-Learn more: [Quarto Presentations](https://quarto.org/docs/presentations/revealjs/)
-:::
