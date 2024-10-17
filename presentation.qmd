@@ -3,7 +3,7 @@ title: "An AI tool for Dementia"
 #subtitle: "It's containers all the way down"
 author: "Simon Clifford"
 institute: "University of Cambridge"
-date: "2024-10-17"
+date: "2024-10-24"
 date-format: "Do MMMM YYYY"
 format:
   revealjs: 
