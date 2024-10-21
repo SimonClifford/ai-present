@@ -25,7 +25,7 @@ title-slide-attributes:
 ## What is AI Dementia?
 
 ::: {.notes}
-Inherited the project from an earlier incarnation developed by Piero and Matt.
+
 :::
 
 The method^1,2^
@@ -46,6 +46,14 @@ A[Brain MRI] --> B[Gray Matter]
 B --> C[ML Model]
 D[Cognitive Scores] --> C
 ```
+
+## The XNAT prototype
+::: {.notes}
+Inherited the project from an earlier incarnation developed by Piero and Matt.
+
+XNAT is a research platform for importing and processing image data.  However, it's not generally deployed in clinical settings.
+:::
+![XNAT prototype, Coronica & Archer](images/Compute-output.jpeg)
 
 ## Note Docker container, with unsourced code
 
