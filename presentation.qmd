@@ -110,7 +110,7 @@ thing called the cloud.
 The PIs want to take this from the prototype to something that can be used
 in a clinical setting.
 
-[A web app!]{.fragment .fade-up}
+[![](images/AWEBAPP.gif)]{.fragment .fade-up}
 
 ::: {.incremental}
 1. Everyone has a web browser, no need to worry about clients.
