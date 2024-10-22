@@ -69,6 +69,11 @@ It provides an API for recovering previously entered data.  It's commmonly used
 in clinical research settings.
 
 The Docker container is where the ML code is.
+
+But Stretch is no longer supported, SPM12 was last updated in Jan 2020, and
+Matlab 2010a...  Alas, it turns out we don't have the Matlab source code, only
+compiled `.mat` files, so we are stuck until our collaborators come up with the
+source.
 :::
 ```{mermaid}
 %%| fig-width: 1000.0px
@@ -78,8 +83,10 @@ A[XNAT server] --> B[Docker container]
 A --> C[REDCap server^1^]
 ```
 
-The Docker container holds a Debian Stretch^2^ image with SPM12^3^ and a Matlab runtime.
-SPM is a Matlab library for analysing brain images.
+The Docker container holds a
+[Debian Stretch^2^ image]{.fragment .highlight-red} with [SPM12^3^]{.fragment
+.highlight-red} and a [Matlab 2010a]{.fragment .highlight-red} runtime.  SPM is
+a Matlab library for analysing brain images.
 
 ::: footer
 1: https://projectredcap.org/
