@@ -11,9 +11,9 @@ format:
     chalkboard: 
       buttons: false
     preview-links: auto
-    logo: "images/Colour logo RGB_DM.jpg"
+    logo: "images/camb_logo_transparent.svg"
     css: styles.css
-    theme: [default,mytheme.scss]
+    theme: [sky,mytheme.scss]
     mermaid-format: svg
 title-slide-attributes:
     data-background-image: images/intended_layout.svg
