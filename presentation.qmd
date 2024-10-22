@@ -119,10 +119,58 @@ in a clinical setting.
 4. I've written web apps before.
 :::
 
-## Web app
-- Rationale for web service
-- Flask
-  - WSGI
+## Flask
+::: notes
+1. My favourite!
+1. Flask doesn't require any particular database or structure.
+1. Instead you add extensions for those things.
+1. In the example explain this is the entire application. The decorator
+registers the `hello_world` function to the `"/"` route.
+1. When a request comes in on that route the function is run and its return
+value sent back to the client.
+:::
+Flask^1^ is a lightweight and extendable web microframework.  
+
+A (very) minimal application is:
+```{.python}
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+```
+::: footer
+1: https://flask.palletsprojects.com/
+:::
+
+## Flask
+Flask^1^ is a lightweight and extendable web microframework.  
+
+Then you can add complexity.
+```python
+from flask import render_template, Flask
+
+app = Flask(__name__)
+
+@app.route('/hello/')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', person=name)
+```
+
+The `hello.html` template would have the `person` variable set to this
+function's `name`.
+
+::: notes
+1. Usually have Jinja templates (unless designing an API) which can do
+Python-like logic.
+:::
+
+::: footer
+1: https://flask.palletsprojects.com/
+:::
 
 ## Database
 - App needs users, authentication
