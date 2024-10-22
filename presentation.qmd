@@ -25,7 +25,11 @@ title-slide-attributes:
 ## What is AI Dementia?
 
 ::: {.notes}
-
+The algorithm:
+1. Takes a 3D brain scan (a magnetic resonance image, MRI).
+2. Processes it to reduce it to only showing grey matter.
+3. Obtains some cognitive scores, usually from a database.
+4. Runs the fairly simply Python code to reduce all this to a single score.
 :::
 
 The method^1,2^
