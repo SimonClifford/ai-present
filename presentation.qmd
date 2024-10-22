@@ -80,7 +80,7 @@ source.
 %%| fig-height: 400.0px
 graph LR
 A[XNAT server] --> B[Docker container]
-A --> C[REDCap server^1^]
+A --> C(REDCap server^1^)
 ```
 
 The Docker container holds a
@@ -171,6 +171,28 @@ Python-like logic.
 ::: footer
 1: https://flask.palletsprojects.com/
 :::
+
+## Where to run the flask app?
+::: {.incremental}
+1. We don't want to run it inside the Docker container with the ancient Matlab,
+Debian, etc, because it's old.
+1. I know....
+:::
+
+::: {.fragment .fade-in}
+::: {.r-fit-text}
+A Docker container!
+:::
+:::
+
+## App design
+```{mermaid}
+%%| fig-width: 1000.0px
+%%| fig-height: 400.0px
+graph LR
+A[Flask app container] --> B[ML container]
+A --> C(REDCap server)
+```
 
 ## Database
 - App needs users, authentication
