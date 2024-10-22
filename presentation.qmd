@@ -96,8 +96,28 @@ a Matlab library for analysing brain images.
 3: https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 :::
 
-## Should separate the old bits from web-facing bits
-- Another container
+## Building on the prototype
+::: {.notes}
+1. XNAT no good because not widely deployed in clinical settings.
+1. Want some client-server structure.
+1. ADVANCE.
+1. First deployed in Addenbrooke's, then other Cambridge Trust hospital, finally
+some third party.
+1. Turns out hospitals are putting all their infra in this fancy fly-by-night
+thing called the cloud.
+1. And they don't want random researchers installing things into their web infra.
+:::
+The PIs want to take this from the prototype to something that can be used
+in a clinical setting.
+
+[A web app!]{.fragment .fade-up}
+
+::: {.incremental}
+1. Everyone has a web browser, no need to worry about clients.
+2. Established network protocol, security available.
+3. [[Can install it into the existing hospital web infra.]{.fragment .strike}]{.fragment .semi-fade-out}
+4. I've written web apps before.
+:::
 
 ## Web app
 - Rationale for web service
