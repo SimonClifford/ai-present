@@ -61,9 +61,12 @@ XNAT is a research platform for importing and processing image data.  However, i
 
 ## Structure of the prototype
 ::: {.notes}
-The code has various scripts that fire on particular XNAT triggers, detailed in next slide.
+The code has various scripts that fire on particular XNAT triggers to perform the
+algorithm.
 
 REDCap is a "secure web application for building online surveys and databases".
+It provides an API for recovering previously entered data.  It's commmonly used
+in clinical research settings.
 
 The Docker container is where the ML code is.
 :::
@@ -75,11 +78,12 @@ A[XNAT server] --> B[Docker container]
 A --> C[REDCap server^1^]
 ```
 
-The Docker container holds a Debian Stretch^2^ image with a Matlab runtime and SPM12^3^.
+The Docker container holds a Debian Stretch^2^ image with SPM12^3^ and a Matlab runtime.
 SPM is a Matlab library for analysing brain images.
 
 ::: footer
 1: https://projectredcap.org/
+
 2: Debian Stretch June 2017 to June 2022, https://www.debian.org/releases/stretch/
 
 3: https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
