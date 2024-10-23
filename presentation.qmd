@@ -144,7 +144,31 @@ brain imaging data, popular with researchers, less so with clinicians.
 2: Neuroimaging Informatics Technology Initiative: https://nifti.nimh.nih.gov/
 :::
 
-## Building upon the prototype
+## Building upon the prototype {.smaller}
+::: {.notes}
+1. Auth could later be SSO or whatever.
+1. Search is within the PACS.
+1. Relevant studies are MRI scans, perhaps with a particular description.
+1. The download may be slow, or delayed.
+1. The score retrieval may also be delayed.
+1. The segmentation takes minutes at 100% CPU.
+1. The result is stored locally because the user may have wandered off!
+:::
+The PIs want to take this from the prototype to something that can be used in a
+clinical setting.
+
+1. The user, a clinician, will authenticate to the app.
+1. They will then search for a patient, using patient ID, date of birth, and
+name.
+1. Once they find them, they choose from any relevant studies.
+1. When they select the study they want the request begins:
+   1. The study is downloaded.
+   1. The cognitive scores are retrieved.
+   1. The study is converted to NIfTI, then segmented.
+   1. The ML code is run on this and the cognitive scores.
+   1. The result is stored locally.
+
+## The New App
 ::: {.notes}
 1. XNAT no good because not widely deployed in clinical settings.
 1. Want some client-server structure.
@@ -155,8 +179,6 @@ some third party.
 thing called the cloud.
 1. And they don't want random researchers installing things into their web infra.
 :::
-The PIs want to take this from the prototype to something that can be used
-in a clinical setting.
 
 [![](images/AWEBAPP.gif)]{.fragment .fade-up}
 
