@@ -287,6 +287,20 @@ details somewhere.
 1. SQLite builtin to Python, nice database but it will prove problematic in later steps.
 :::
 
+::: footer
+1: https://www.postgresql.org/
+:::
+
+## App design 2
+```{mermaid}
+%%| fig-width: 1000.0px
+%%| fig-height: 400.0px
+graph LR
+A[Flask app container]-->B[ML container]
+A-->D[PostgreSQL server]
+B-->D
+A-.->C[(REDCap server)]
+```
 ## SQLAlchemy^1^
 
 ::: notes
