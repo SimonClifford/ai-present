@@ -214,12 +214,27 @@ the remote REDCap server.
 :::
 
 ## Database
-- App needs users, authentication
-  - Somewhere to store usernames, hashes, requests
+::: {.incremental}
+- App will need users, authentication.
+  - So needs somewhere to store usernames, hashes.
+  - Also track the requests a clinician has made.
   - _Could_ use SQLite but gives problems later
   - Really like to use PostgreSQL
     - Have to assume user has it installed?
-    - No!  Another container!
+    - No...
+:::
+
+::: {.fragment .fade-in}
+![](images/a_container.gif)
+:::
+
+::: notes
+1. While it is possible to hook into SSO, etc, we will start with a local
+authentication mechanism.
+1. The clinician makes a request, we will need to store information like patient
+details somewhere.
+1. SQLite builtin to Python, nice database but it will prove problematic in later steps.
+:::
 
 ## Cognitive Scores
 - REDCap DB
