@@ -144,7 +144,7 @@ brain imaging data, popular with researchers, less so with clinicians.
 2: Neuroimaging Informatics Technology Initiative: https://nifti.nimh.nih.gov/
 :::
 
-## Building on the prototype
+## Building upon the prototype
 ::: {.notes}
 1. XNAT no good because not widely deployed in clinical settings.
 1. Want some client-server structure.
