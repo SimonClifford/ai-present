@@ -269,9 +269,9 @@ the remote REDCap server.
 - App will need users, authentication.
   - So needs somewhere to store usernames, hashes.
   - Also track the requests a clinician has made.
-  - _Could_ use SQLite but gives problems later
-  - Really like to use PostgreSQL
-    - Have to assume user has it installed?
+- _Could_ use SQLite but gives problems later.
+- Really like to use PostgreSQL^1^.
+  - Should we assume hospital has it installed?
     - No...
 :::
 
