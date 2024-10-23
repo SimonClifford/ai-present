@@ -96,12 +96,56 @@ a Matlab library for analysing brain images.
 3: https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 :::
 
+## Images
+::: notes
+1. Prototype was handed images
+1. We need to get them in a hospital setting.
+1. Needs to download image data from a Picture Archiving and Communication
+Service (PACS).
+1. DICOM (Digital Imaging and Communications in Medicine) started in the mid-_80's_.
+:::
+
+::: {.incremental}
+- What is PACS?
+  - Essentially a networked database.
+- What does it speak?
+  - DICOM.
+    - Defines file format and transfer protocol.
+    - _Really_ comprehensive metadata.
+:::
+
+## Images
+::: notes
+1. Note the Patient "Genetic Modifications Sequence" and "Species" information.
+:::
+![](images/dicom_example.png)
+
+## Images
+
+::: notes
+1. We need for a user to be able to query a PACS for patient info, scan details,
+and finally download data.
+2. The prototype works on NIfTI images.  A format commonly used to store MRI
+brain imaging data, popular with researchers, less so with clinicians.
+3. The segmentation uses standard SPM12 functions to leave only grey matter.
+:::
+::: {.incremental}
+- Use Pynetdicom^1^ to search for and download images.
+- Use several tools to convert to NIfTI^2^ format.
+- Use existing SPM12 container to segment into grey matter image.
+  - Note this segmentation is _slow_!
+:::
+
+::: footer
+1: https://pydicom.github.io/pynetdicom/stable/
+
+2: Neuroimaging Informatics Technology Initiative: https://nifti.nimh.nih.gov/
+:::
+
 ## Building on the prototype
 ::: {.notes}
 1. XNAT no good because not widely deployed in clinical settings.
 1. Want some client-server structure.
-1. Needs to download image data from a Picture Archiving and Communication
-Service (PACS).
 1. ADVANCE.
 1. First deployed in Addenbrooke's, then other Cambridge Trust hospital, finally
 some third party.
