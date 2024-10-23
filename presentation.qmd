@@ -237,7 +237,7 @@ for adding users and so on.
 ## Where to run the flask app?
 ::: {.incremental}
 1. We don't want to run it inside the Docker container with the ancient Matlab,
-Debian, etc, because it's old.
+Debian, etc, because that's old.
 1. Don't want to assume what the client will have installed.
 1. I know....
 :::
