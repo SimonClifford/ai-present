@@ -149,31 +149,40 @@ def hello_world():
 1: https://flask.palletsprojects.com/
 :::
 
-## Flask
-Flask^1^ is a lightweight and extendable web micro-framework.  
-
-Then you can add complexity.
-```python
-from flask import render_template, Flask
-
-app = Flask(__name__)
-
-@app.route('/hello/')
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('hello.html', person=name)
+## Flask App
+So we wrote a fairly simple Flask app with the following routes:
 ```
-
-The `hello.html` template would have the `person` variable set to this
-function's `name`.
-
+Endpoint                  Methods    Rule
+------------------------  ---------  -----------------------
+auth.login                GET, POST  /login
+main.home_page            GET        /
+main.search_previous      GET, POST  /search_previous
+main.select_patient       GET, POST  /select_patient
+main.select_series        GET        /select_series
+main.select_study         GET        /select_study
+main.explain_no_config    GET        /explain_no_config
+main.request_score        GET        /request_score
+main.confirm_delete       GET        /confirm_delete
+main.delete_request       GET        /delete_request
+main.view_request         GET        /view_request
+admin.add_user            GET, POST  /add_user
+admin.admin_home_page     GET        /admin
+admin.edit_configuration  GET, POST  /edit_configuration
+admin.edit_user           GET, POST  /edit_user
+admin.edit_users          GET        /edit_users
+admin.view_logs           GET        /view_logs
+static                    GET        /static/<path:filename>
+```
 ::: notes
-1. Usually have Jinja templates (unless designing an API) which can do
-Python-like logic.
-:::
-
-::: footer
-1: https://flask.palletsprojects.com/
+1. There's a login page that sets a local cookie once authenticated.  Handled by
+a Flask extension, Flask-login.  All other routes are marked as "for logged in
+users only".
+1. The `main` routes allow the clinician to search a PACS for patients, then for
+MRI studies for that patient, then download them.
+1. Also to submit a request for a score calculation.
+1. Forms go to `POST` routes, simplified by an extension, Flask-WTForms.
+1. Finally some admin routes that are only available to users marked as "admin",
+for adding users and so on.
 :::
 
 ## Where to run the flask app?
