@@ -100,6 +100,8 @@ a Matlab library for analysing brain images.
 ::: {.notes}
 1. XNAT no good because not widely deployed in clinical settings.
 1. Want some client-server structure.
+1. Needs to download image data from a Picture Archiving and Communication
+Service (PACS).
 1. ADVANCE.
 1. First deployed in Addenbrooke's, then other Cambridge Trust hospital, finally
 some third party.
