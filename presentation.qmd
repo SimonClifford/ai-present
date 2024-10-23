@@ -80,7 +80,7 @@ source.
 %%| fig-height: 400.0px
 graph LR
 A[XNAT server] --> B[Docker container]
-A --> C(REDCap server^1^)
+A -.-> C[(REDCap server)]
 ```
 
 The Docker container holds a
@@ -256,7 +256,7 @@ Another Docker container!
 %%| fig-height: 400.0px
 graph LR
 A[Flask app container] --> B[ML container]
-A --> C(REDCap server)
+A -.-> C[(REDCap server)]
 ```
 
 ::: notes
