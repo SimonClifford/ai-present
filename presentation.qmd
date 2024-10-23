@@ -130,6 +130,8 @@ in a clinical setting.
 registers the `hello_world` function to the `"/"` route.
 1. When a request comes in on that route the function is run and its return
 value sent back to the client.
+1. Usually have Jinja templates (unless designing an API) which can do
+Python-like logic.
 :::
 Flask^1^ is a lightweight and extendable web microframework.  
 
