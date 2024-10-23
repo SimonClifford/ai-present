@@ -285,18 +285,84 @@ details somewhere.
 1. SQLite builtin to Python, nice database but it will prove problematic in later steps.
 :::
 
-## Cognitive Scores
-- REDCap DB
+## SQLAlchemy^1^
 
-## Images
-- Prototype was handed images
-- We need to get them from PACS
-  - Explain PACS
-  - Explain DICOM
-  - Pynetdicom
-  - Show search page of app?
-  - Conversion to NIFTI
-  - Segmentation
+::: notes
+1. SQLAlchemy is a Python SQL toolkit and Object Relational Manager.
+1. Captures the description of each table in the DB in _Python_ code.
+6. Only store the schema in one place.
+2. Can automatically create the entire DB.  Extensions to migrate between versions.
+3. Provides Pythonic way to address database joins.
+4. So in example shown, each Request references a single User by its `id` (line 15).
+5. By declaring a `relationship` (line 16) we can reference the User object that
+the request is owned by directly.  We also use `back_populates` to get a list of
+Requests that each User owns.  All accessing the database is lazy.
+:::
+
+::: {.fragment .fade-in}
+```python
+class User(UserMixin, db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(length=64), unique=True, index=True,
+                         nullable=False)
+    # as per https://www.rfc-editor.org/errata_search.php?rfc=3696&eid=1690
+    email = db.Column(db.String(length=254))                     
+    password_hash = db.Column(db.String(length=128), nullable=False)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    requests = relationship('Request')
+
+class Request(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)  # internal ID
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = relationship('User', back_populates='requests')
+    series_instance_uid = db.Column(db.String(length=64),
+                                    nullable=False)  # UI
+    patient_id = db.Column(db.Text, ForeignKey('patient.patient_id'),
+                           nullable=False)  # LO
+    patient = relationship('Patient')
+    study_description = db.Column(db.Text)  # LO
+    study_date = db.Column(db.Date)  # DA
+    series_description = db.Column(db.Text)  # LO
+    series_date = db.Column(db.Date)  # DA
+    series_description = db.Column(db.Text)  # LO
+    mr_scan_path = db.Column(db.Text)
+    mr_scan_path_nifti = db.Column(db.Text)
+    gm_scan_path = db.Column(db.Text)
+    # will fix but currently scores parsed as
+    # comma sep list by scripts
+    score_data = db.Column(db.Text)
+    # result_data stores JSON encoded result data.
+    result_data = db.Column(db.Text, default='{}')
+    request_date = db.Column(db.DateTime, server_default=func.now())
+    result_date = db.Column(db.DateTime)
+    # Choose 40 chars because we might use git commit SHAs as version
+    # markers one day?
+    result_version = db.Column(db.String(40))
+    task_id = db.Column(db.String(36))
+```
+:::
+
+::: {.footer}
+1: https://www.sqlalchemy.org/
+:::
+
+## SQLAlchemy
+
+::: notes
+1. There's also a Flask-SQLAlchemy extension.
+:::
+
+```python
+>>> simon = User.query.get(1)
+>>> simon.username
+'simon'
+>>> simon.password_hash
+'pbkdf2:sha256:600000$P950Nsh7qgGMblJB$8b247bac3ff808890f3bf4e316fdfa77ab03d749c534f6227d6dc6676275b60c'
+>>> simon.requests
+[<Request 4>, <Request 5>, <Request 6>]
+```
 
 ## Segmentation slow
 - Asynchronous web request
