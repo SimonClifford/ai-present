@@ -146,7 +146,7 @@ def hello_world():
 :::
 
 ## Flask
-Flask^1^ is a lightweight and extendable web microframework.  
+Flask^1^ is a lightweight and extendable web micro-framework.  
 
 Then you can add complexity.
 ```python
@@ -176,12 +176,13 @@ Python-like logic.
 ::: {.incremental}
 1. We don't want to run it inside the Docker container with the ancient Matlab,
 Debian, etc, because it's old.
+1. Don't want to assume what the client will have installed.
 1. I know....
 :::
 
 ::: {.fragment .fade-in}
 ::: {.r-fit-text}
-A Docker container!
+Another Docker container!
 :::
 :::
 
@@ -193,6 +194,11 @@ graph LR
 A[Flask app container] --> B[ML container]
 A --> C(REDCap server)
 ```
+
+::: notes
+1. The Flask app handles the users and interacts with the ML container and
+the remote REDCap server.
+:::
 
 ## Database
 - App needs users, authentication
