@@ -290,11 +290,11 @@ the remote REDCap server.
 ::: {.incremental}
 - App will need users, authentication.
   - So needs somewhere to store usernames, hashes.
-  - Also track the requests a clinician has made.
+- Also track the requests a clinician has made.
 - _Could_ use SQLite but gives problems later.
 - Really like to use PostgreSQL^1^.
   - Should we assume hospital has it installed?
-    - No...
+  - No...
 :::
 
 ::: {.fragment .fade-in}
@@ -402,15 +402,49 @@ class Request(db.Model):
 [<Request 4>, <Request 5>, <Request 6>]
 ```
 
-## Segmentation slow
-- Asynchronous web request
-- User submits, goes away
-- Req keeps going
-- Celery!
+## The segmentation process
+::: {.notes}
+1. The segmentation process may be slow.  Might take minutes, should probably
+run serially with other segmentations.
+1. But web requests are pretty much immediate (apart from streaming, etc).
+1. So we need an asynchronous system: user submits request, goes away, comes
+back
+later.
+1. Celery is a task queue sytem: put tasks in the queue, workers will process
+them.
+1. Celery needs a broker, effectively a fast database / cache, which manages the tasks.
+1. Redis can do this.
+1. Do we assume it's there...?
+:::
+
+::: {.incremental}
+- Segmentation is quite slow.
+- A web request is expected to finish quickly.
+- Need asynchronous task management.
+- Celery^1^!.
   - But celery needs a broker.
-  - Redis
-  - Have to assume user has it installed?
-  - No! Another container!
+  - Redis^2^.
+  - _Where can we run Redis?_
+:::
+
+::: footer
+1: https://docs.celeryq.dev/en/stable/
+
+2: https://redis.io/
+:::
+
+## App design ~~2~~ 3
+```{mermaid}
+%%| fig-width: 1000.0px
+%%| fig-height: 400.0px
+graph LR
+A[Flask app container]-->B[ML container]
+A-->D[PostgreSQL server]
+B-->D
+A-->E[Redis container]
+B-->E
+A-.->C[(REDCap server)]
+```
 
 ## Need SSL to keep secret
 - WSGI hosters not always great at that
