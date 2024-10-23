@@ -106,7 +106,9 @@ Service (PACS).
 :::
 
 ::: {.incremental}
-- What is PACS?
+- Where are clinical images stored in a hospital?
+  - A PACS.
+- What is a PACS?
   - Essentially a networked database.
 - What does it speak?
   - DICOM.
