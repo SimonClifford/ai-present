@@ -360,7 +360,7 @@ class Request(db.Model):
 ```
 :::
 
-::: {.footer}
+::: footer
 1: https://www.sqlalchemy.org/
 :::
 
