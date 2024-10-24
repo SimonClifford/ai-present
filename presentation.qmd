@@ -427,6 +427,9 @@ them.
   - _Where can we run Redis?_
 :::
 
+## You guessed it!
+![](images/another_container.gif)
+
 ::: footer
 1: https://docs.celeryq.dev/en/stable/
 
@@ -446,11 +449,44 @@ B-->E
 A-.->C[(REDCap server)]
 ```
 
-## Need SSL to keep secret
-- WSGI hosters not always great at that
-- Plus host may already do this
-- Optional SSL bit then, reverse proxy, nginx
-- WHERE CAN IT GO?
+## Network security paramount
+::: notes
+1. App accessed through specialised interface called WSGI.
+1. WSGI servers are usually specialised for this purpose, not always for TLS.
+1. The web infra that we may or may not be installing into may already have TLS (i.e. we're
+a part of an existing website).
+1. So this needs to be optional: a reverse proxy that handles TLS and isn't missed if it's not there.
+1. Easily done in nginx.
+:::
+::: {.incremental}
+- Web Services Gateway Interface.
+- Host may already do this.
+- Use nginx^1^.
+- Where can it go?
+   - WHERE CAN IT GO, SIMON?
+:::
+
+::: footer
+1: https://nginx.org/
+:::
+
+## Con Tainer?
+
+![](images/yet_another_container.gif)
+
+## App design ~~2~~ ~~3~~ 4
+```{mermaid}
+%%| fig-width: 1000.0px
+%%| fig-height: 400.0px
+graph LR
+A[Flask app container]-->B[ML container]
+A-->D[PostgreSQL server]
+B-->D
+A-->E[Redis container]
+B-->E
+A-.->C[(REDCap server)]
+A-.->Z[nginx]
+```
 
 ## What about testing?
 - Can't test against live PACS, want to test PACS parts
