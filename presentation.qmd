@@ -26,13 +26,16 @@ title-slide-attributes:
 
 ::: {.notes}
 The algorithm:
+
+1. Zoe's group is in the Adaptive Brain Lab, Cambridge.
 1. Takes a 3D brain scan (a magnetic resonance image, MRI).
 2. Processes it to reduce it to only showing grey matter.
 3. Obtains some cognitive scores, usually from a database.
 4. Runs the fairly simply Python code to reduce all this to a single score.
+1. Uses a Generalised Metric Learning Vector Quantization, GMLVQ.
 :::
 
-The method^1,2^
+The method^1,2^ developed by Zoe Kourtzi's group
 uses a machine learning (ML) algorithm trained on brain images (MRIs) and cognitive
 scores to give a prognostic score of the likelihood of the patient having Alzheimer's.
 
@@ -96,6 +99,44 @@ a Matlab library for analysing brain images.
 3: https://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 :::
 
+## Docker^1^
+
+::: notes
+1. OK, going to be talking about Docker a lot, so what is it?
+1. Processes run in containers, cannot interact with processes, filesystems, or
+networks in other containers or on the host unless explicitly permitted.
+1. Containers are built to be fully configured and ready to run.
+:::
+
+::: {.incremental}
+- Docker: platform for building, shipping, and running applications.
+- _Containers_: more lightweight that virtualisation.
+:::
+
+::: {.fragment .fade-in}
+```Dockerfile
+FROM python:3.8-slim-bullseye
+
+WORKDIR /
+COPY provisioning-base-os.sh /opt
+RUN /opt/provisioning-base-os.sh              
+
+COPY start-ai_dementia_app.sh /opt
+COPY provisioning-ai_dementia_app.sh /opt
+COPY ai_dementia_app.tgz /opt                             
+RUN /opt/provisioning-ai_dementia_app.sh     
+
+RUN rm /opt/ai_dementia_app.tgz /opt/provisioning-ai_dementia_app.sh /opt/provisioning-base-os.sh
+  
+WORKDIR /opt/ai_dementia_web                    
+ENTRYPOINT ["/opt/start-ai_dementia_app.sh"]
+```
+:::
+
+::: footer
+1: https://www.docker.com/
+:::
+
 ## Images
 ::: notes
 1. Prototype was handed images
@@ -157,6 +198,7 @@ brain imaging data, popular with researchers, less so with clinicians.
 The PIs want to take this from the prototype to something that can be used in a
 clinical setting.
 
+::: {.incremental}
 1. The user, a clinician, will authenticate to the app.
 1. They will then search for a patient, using patient ID, date of birth, and
 name.
@@ -167,6 +209,7 @@ name.
    1. The study is converted to NIfTI, then segmented.
    1. The ML code is run on this and the cognitive scores.
    1. The result is stored locally.
+:::
 
 ## The New App
 ::: {.notes}
@@ -203,6 +246,7 @@ Python-like logic.
 :::
 Flask^1^ is a lightweight and extendable web microframework.  
 
+::: {.fragment .fade-in}
 A (very) minimal application is:
 ```{.python}
 from flask import Flask, render_template
@@ -218,6 +262,7 @@ def hello_world():
 def hello(name=None):
     return render_template('hello.html', person=name)
 ```
+:::
 ::: footer
 1: https://flask.palletsprojects.com/
 :::
@@ -489,12 +534,201 @@ A-.->Z[nginx]
 ```
 
 ## What about testing?
-- Can't test against live PACS, want to test PACS parts
-- Mocking?  But this is the hard bit
-- Could run a test PACS with safe data
-- Oh ho ho
+::: notes
+1. Can't test against live PACS for legal as well as sanity reasons.
+1. Some mocking is being used, but that can end up skipping or mocking the bits
+we're trying to test.
+1. Orthanc is a free and open source DICOM server for medical imaging from Belgium.
+1. Safe data is MRI studies that are public domain or that have consented to this use.
+:::
 
-## docker-compose
-- Show file
-- Fun fact: docker compose inside a container will use the local container's `docker-compose.yml`
-  but files referred to from that compose file are looked for _on the host_.
+::: {.incremental}
+- Can't test against live PACS, want to test PACS parts.
+- Mocking?  But this is the hard bit.
+- Run a DICOM server (Orthanc^1^) with safe data.
+- Oh ho ho no no.
+:::
+
+::: footer
+1: https://www.orthanc-server.com/
+:::
+
+## App design ~~2~~ ~~3~~ ~~4~~ a millionty
+```{mermaid}
+%%| fig-width: 1000.0px
+%%| fig-height: 400.0px
+graph LR
+A[Flask app container]-->B[ML container]
+A-->D[PostgreSQL server]
+B-->D
+A-->E[Redis container]
+B-->E
+A-.->C[(REDCap server)]
+A-.->Z[nginx]
+A-.->X[Orthanc]
+```
+## Docker compose
+::: {.incremental}
+- Docker compose manages multiple containers (_services_).
+   - Easier to define shared networks, storage.
+:::
+
+::: {.fragment .fade-in}
+```Dockerfile
+# Helpful name prefix for all containers.
+name: ai_dementia
+
+services:
+  # Test PACS, use for development / testing only.
+  orthanc:
+    # build: ./orthanc_container
+    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_orthanc:latest
+    restart: unless-stopped
+    # ports: ["104:4242", "8080:8042"]
+    ports: ["4242:4242"]
+    #ports: ["8080:8042"]
+    # uncomment this when adding entries
+    #volumes: ["/tmp/orthanc-storage:/var/lib/orthanc"]
+    environment:
+      ORTHANC__NAME: "The Orthanc"
+      VERBOSE_ENABLED: "true"
+      ORTHANC__REGISTERED_USERS: |
+        {"demo": "demo"}
+      ORTHANC__DICOM_MODALITIES: |
+        {
+        "aid": ["AIDSCU", "webapp", "4242"],
+        "aidmov": ["STORESCP", "webapp", "11113"]
+        }
+    networks:
+      backend:
+        aliases:
+          - orthanc-host
+
+  # The broker and backend for Celery.
+  redis:
+    image: redis
+    ports: ["6379:6379"]
+    restart: unless-stopped
+    networks:
+      backend:
+        aliases:
+          - redis-host
+
+  # The app that serves the pages.
+  webapp:
+    # build: ./webapp_container
+    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_webapp:latest
+    pull_policy: never
+    restart: unless-stopped
+    ports: ["127.0.0.1:8000:8000"]
+    volumes:
+      - webapp-storage:/shared-volume
+      - config-storage:/config:ro
+    depends_on:
+      - db
+      - redis
+    networks:
+      backend:
+        aliases:
+          - webapp-host
+
+  # Container for the ML calculation parts, MATLAB, etc.
+  aid_ml:
+    # build: ./aid_ml_container
+    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_aid_ml:latest
+    pull_policy: never
+    restart: unless-stopped
+    volumes:
+      - webapp-storage:/shared-volume
+      - config-storage:/config:ro
+    depends_on:
+      - db
+      - redis
+    networks:
+      backend:
+        aliases:
+          - aid_ml-host
+
+  # Postgres to store intermediate and final results.
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD_FILE: /config/app_config/db_password.txt
+      POSTGRES_DB: ai_dementia
+    # Uncomment this to access DB from outside containers
+    # DO NOT DO THIS IN PRODUCTION
+    ports: ["127.0.0.1:5432:5432"]
+    volumes:
+      - db-storage:/var/lib/postgresql/data
+      - config-storage:/config:ro
+    networks:
+      backend:
+        aliases:
+          - db-host
+
+  # Reverse proxy for the webapp.  _May_ not be needed, if client
+  # infrastructure can already proxy.  This reverse proxy must be able to
+  # handle TLS / SSL because the webapp doesn't.
+  proxy_webserver:
+    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_proxy:latest
+    build: ./proxy_server_container
+    pull_policy: never
+    ports: ["443:443"]
+    volumes:
+      - config-storage:/config:ro
+    networks:
+      backend:
+        aliases:
+          - proxy-host
+    depends_on:
+      - webapp
+    environment:
+      - NGINX_PORT=443
+
+  # Deploy container
+  # TBD
+
+volumes:
+  # Storage for intermediate files / images.
+  webapp-storage:
+  # Storage for the database.
+  db-storage:
+  # Storage for configuration and startup / update / etc.
+  config-storage:
+
+networks:
+  # Network for containers to talk to each other.
+  backend:
+
+```
+:::
+
+## App design ~~2~~ ~~3~~ ~~4~~ ~~a millionty~~ FINALEST
+```{mermaid}
+graph LR
+    subgraph Web App container
+        A[web app]
+    end
+    subgraph PACS facing Container
+        E[PACS download worker]
+        F[Image pre-process workers]
+    end
+    subgraph Redis Container
+        A-->|submits tasks|B[Redis]
+        B-->|runs tasks N=1|E
+        B-->|runs tasks|F
+    end
+    subgraph AD Container
+        B-->|runs tasks|C[REDCap query workers]
+        B-->|runs tasks|D[Compute score workers]
+    end
+    subgraph DB container
+        G[database]
+        A-->G
+        C-->G
+        E-->G
+        F-->G
+        D-->G
+    end
+```
