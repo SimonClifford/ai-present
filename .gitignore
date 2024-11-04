@@ -1,3 +1,5 @@
 .venv/
 presentation_files/
 presentation.html
+/.quarto/
+/_site/
