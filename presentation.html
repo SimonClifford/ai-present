@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="presentation_files/libs/clipboard/clipboard.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tabby.min.js"></script>
+<script src="presentation_files/libs/quarto-html/popper.min.js"></script>
+<script src="presentation_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="presentation_files/libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.32">
+
+  <meta name="author" content="Simon Clifford">
+  <title>An AI tool for Dementia</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="presentation_files/libs/revealjs/dist/theme/quarto-0d823855da911f33ff3ccb66e0d25090.css">
+  <link rel="stylesheet" href="styles.css">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="presentation_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="presentation_files/libs/quarto-diagram/mermaid-postprocess-shim.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-image="images/intended_layout.svg" data-background-opacity="0.5" data-background-repeat="repeat" data-background-size="60%" class="quarto-title-block center">
+  <h1 class="title">An AI tool for Dementia</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Simon Clifford 
+</div>
+        <p class="quarto-title-affiliation">
+            University of Cambridge
+          </p>
+    </div>
+</div>
+
+  <p class="date">24th October 2024</p>
+</section>
+<section id="what-is-ai-dementia" class="slide level2">
+<h2>What is AI Dementia?</h2>
+<aside class="notes">
+<p>The algorithm:</p>
+<ol type="1">
+<li>Zoe’s group is in the Adaptive Brain Lab, Cambridge.</li>
+<li>Takes a 3D brain scan (a magnetic resonance image, MRI).</li>
+<li>Processes it to reduce it to only showing grey matter.</li>
+<li>Obtains some cognitive scores, usually from a database.</li>
+<li>Runs the fairly simply Python code to reduce all this to a single score.</li>
+<li>Uses a Generalised Metric Learning Vector Quantization, GMLVQ.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>The method<sup>1,2</sup> developed by Zoe Kourtzi’s group uses a machine learning (ML) algorithm trained on brain images (MRIs) and cognitive scores to give a prognostic score of the likelihood of the patient having Alzheimer’s.</p>
+<div class="footer">
+<p>1: https://doi.org/10.1016/j.nicl.2020.102199</p>
+<p>2: https://doi.org/10.1101/2020.08.15.252601</p>
+</div>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 546.3125 174" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-1" height="400">
+<style>#mermaid-figure-1{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-1 .error-icon{fill:#552222;}#mermaid-figure-1 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-1 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-1 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-1 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-1 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-1 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-1 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-1 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-1 .marker.cross{stroke:#333333;}#mermaid-figure-1 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-1 p{margin:0;}#mermaid-figure-1 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-1 .cluster-label text{fill:#333;}#mermaid-figure-1 .cluster-label span{color:#333;}#mermaid-figure-1 .cluster-label span p{background-color:transparent;}#mermaid-figure-1 .label text,#mermaid-figure-1 span{fill:#333;color:#333;}#mermaid-figure-1 .node rect,#mermaid-figure-1 .node circle,#mermaid-figure-1 .node ellipse,#mermaid-figure-1 .node polygon,#mermaid-figure-1 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-1 .rough-node .label text,#mermaid-figure-1 .node .label text{text-anchor:middle;}#mermaid-figure-1 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-1 .node .label{text-align:center;}#mermaid-figure-1 .node.clickable{cursor:pointer;}#mermaid-figure-1 .arrowheadPath{fill:#333333;}#mermaid-figure-1 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-1 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-1 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-1 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-1 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-1 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-1 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-1 .cluster text{fill:#333;}#mermaid-figure-1 .cluster span{color:#333;}#mermaid-figure-1 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-1 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-1 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069547_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069547_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069547_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069547_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741069547_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741069547_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741069547_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M134.922,35L139.089,35C143.255,35,151.589,35,159.166,35C166.743,35,173.565,35,179.72,35C185.875,35,191.363,35,194.107,35L196.852,35"></path><path marker-end="url(#mermaid-1730741069547_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_C_1" d="M346.398,35L353.22,35C360.042,35,373.685,35,384.032,37.083C394.379,39.167,401.429,43.333,407.906,47.161C414.383,50.988,420.286,54.477,423.237,56.221L426.188,57.965"></path><path marker-end="url(#mermaid-1730741069547_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_D_C_2" d="M362.328,139L366.495,139C370.661,139,378.995,139,386.687,136.917C394.379,134.833,401.429,130.667,407.906,126.839C414.383,123.012,420.286,119.523,423.237,117.779L426.188,116.035"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(71.4609375, 35)" id="flowchart-A-0" class="node default"><rect height="54" width="126.921875" y="-27" x="-63.4609375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-33.4609375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="66.921875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Brain MRI
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(273.625, 35)" id="flowchart-B-1" class="node default"><rect height="54" width="145.546875" y="-27" x="-72.7734375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-42.7734375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="85.546875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Gray Matter
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(475.3203125, 87)" id="flowchart-C-3" class="node default"><rect height="54" width="125.984375" y="-27" x="-62.9921875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-32.9921875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="65.984375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+ML Model
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(273.625, 139)" id="flowchart-D-4" class="node default"><rect height="54" width="177.40625" y="-27" x="-88.703125" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-58.703125, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="117.40625">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Cognitive Scores
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-xnat-prototype" class="slide level2">
+<h2>The XNAT prototype</h2>
+<aside class="notes">
+<p>Inherited the project from an earlier incarnation developed by Piero and Matt.</p>
+<p>XNAT is a research platform for importing and processing image data. However, it’s not generally deployed in clinical settings.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+<img data-src="images/Compute-output.jpeg" class="r-stretch quarto-figure-center"><p class="caption">XNAT prototype, Coronica &amp; Archer</p></section>
+<section id="structure-of-the-prototype" class="slide level2">
+<h2>Structure of the prototype</h2>
+<aside class="notes">
+<p>The code has various scripts that fire on particular XNAT triggers to perform the algorithm.</p>
+<p>REDCap is a “secure web application for building online surveys and databases”. It provides an API for recovering previously entered data. It’s commmonly used in clinical research settings.</p>
+<p>The Docker container is where the ML code is.</p>
+<p>But Stretch is no longer supported, SPM12 was last updated in Jan 2020, and Matlab 2010a… Alas, it turns out we don’t have the Matlab source code, only compiled <code>.mat</code> files, so we are stuck until our collaborators come up with the source.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 393.4375 195.51626586914062" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-8" height="400">
+<style>#mermaid-figure-8{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-8 .error-icon{fill:#552222;}#mermaid-figure-8 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-8 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-8 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-8 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-8 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-8 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-8 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-8 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-8 .marker.cross{stroke:#333333;}#mermaid-figure-8 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-8 p{margin:0;}#mermaid-figure-8 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-8 .cluster-label text{fill:#333;}#mermaid-figure-8 .cluster-label span{color:#333;}#mermaid-figure-8 .cluster-label span p{background-color:transparent;}#mermaid-figure-8 .label text,#mermaid-figure-8 span{fill:#333;color:#333;}#mermaid-figure-8 .node rect,#mermaid-figure-8 .node circle,#mermaid-figure-8 .node ellipse,#mermaid-figure-8 .node polygon,#mermaid-figure-8 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-8 .rough-node .label text,#mermaid-figure-8 .node .label text{text-anchor:middle;}#mermaid-figure-8 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-8 .node .label{text-align:center;}#mermaid-figure-8 .node.clickable{cursor:pointer;}#mermaid-figure-8 .arrowheadPath{fill:#333333;}#mermaid-figure-8 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-8 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-8 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-8 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-8 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-8 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-8 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-8 .cluster text{fill:#333;}#mermaid-figure-8 .cluster span{color:#333;}#mermaid-figure-8 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-8 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-8 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070824_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070824_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070824_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070824_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070824_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070824_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741070824_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M126.402,65.379L135.007,60.316C143.612,55.253,160.822,45.126,171.51,40.063C182.198,35,186.365,35,189.865,35C193.365,35,196.198,35,197.615,35L199.031,35"></path><path marker-end="url(#mermaid-1730741070824_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_C_1" d="M126.402,119.379L135.007,124.442C143.612,129.505,160.822,139.632,174.168,144.695C187.514,149.758,196.997,149.758,205.814,149.758C214.63,149.758,222.78,149.758,226.855,149.758L230.93,149.758"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(80.515625, 92.37906455993652)" id="flowchart-A-0" class="node default"><rect height="54" width="145.03125" y="-27" x="-72.515625" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-42.515625, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="85.03125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+XNAT server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(294.234375, 35)" id="flowchart-B-1" class="node default"><rect height="54" width="182.40625" y="-27" x="-91.203125" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-61.203125, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="122.40625">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Docker container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(294.234375, 149.75812911987305)" id="flowchart-C-3" class="node default"><path transform="translate(-59.3046875, -37.75812969020589)" style="" class="basic label-container" d="M0,12.172086460137258 a59.3046875,12.172086460137258 0,0,0 118.609375,0 a59.3046875,12.172086460137258 0,0,0 -118.609375,0 l0,51.17208646013726 a59.3046875,12.172086460137258 0,0,0 118.609375,0 l0,-51.17208646013726"></path><g transform="translate(-51.8046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="103.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap server
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>The Docker container holds a <span class="fragment highlight-red">Debian Stretch<sup>2</sup> image</span> with <span class="fragment highlight-red">SPM12<sup>3</sup></span> and a <span class="fragment highlight-red">Matlab 2010a</span> runtime. SPM is a Matlab library for analysing brain images.</p>
+<div class="footer">
+<p>1: https://projectredcap.org/</p>
+<p>2: Debian Stretch June 2017 to June 2022, https://www.debian.org/releases/stretch/</p>
+<p>3: https://www.fil.ion.ucl.ac.uk/spm/software/spm12/</p>
+</div>
+</section>
+<section id="docker1" class="slide level2">
+<h2>Docker<sup>1</sup></h2>
+<aside class="notes">
+<ol type="1">
+<li>OK, going to be talking about Docker a lot, so what is it?</li>
+<li>Processes run in containers, cannot interact with processes, filesystems, or networks in other containers or on the host unless explicitly permitted.</li>
+<li>Containers are built to be fully configured and ready to run.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div>
+<ul>
+<li class="fragment">Docker: platform for building, shipping, and running applications.</li>
+<li class="fragment"><em>Containers</em>: more lightweight that virtualisation.</li>
+</ul>
+</div>
+<div class="fragment fade-in">
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb1-1"><a href=""></a><span class="kw">FROM</span> python:3.8-slim-bullseye</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a><span class="kw">WORKDIR</span> /</span>
+<span id="cb1-4"><a href=""></a><span class="kw">COPY</span> provisioning-base-os.sh /opt</span>
+<span id="cb1-5"><a href=""></a><span class="kw">RUN</span> <span class="ex">/opt/provisioning-base-os.sh</span>              </span>
+<span id="cb1-6"><a href=""></a></span>
+<span id="cb1-7"><a href=""></a><span class="kw">COPY</span> start-ai_dementia_app.sh /opt</span>
+<span id="cb1-8"><a href=""></a><span class="kw">COPY</span> provisioning-ai_dementia_app.sh /opt</span>
+<span id="cb1-9"><a href=""></a><span class="kw">COPY</span> ai_dementia_app.tgz /opt                             </span>
+<span id="cb1-10"><a href=""></a><span class="kw">RUN</span> <span class="ex">/opt/provisioning-ai_dementia_app.sh</span>     </span>
+<span id="cb1-11"><a href=""></a></span>
+<span id="cb1-12"><a href=""></a><span class="kw">RUN</span> <span class="fu">rm</span> /opt/ai_dementia_app.tgz /opt/provisioning-ai_dementia_app.sh /opt/provisioning-base-os.sh</span>
+<span id="cb1-13"><a href=""></a>  </span>
+<span id="cb1-14"><a href=""></a><span class="kw">WORKDIR</span> /opt/ai_dementia_web                    </span>
+<span id="cb1-15"><a href=""></a><span class="kw">ENTRYPOINT</span> [<span class="st">"/opt/start-ai_dementia_app.sh"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p>1: https://www.docker.com/</p>
+</div>
+</section>
+<section id="images" class="slide level2">
+<h2>Images</h2>
+<aside class="notes">
+<ol type="1">
+<li>Prototype was handed images</li>
+<li>We need to get them in a hospital setting.</li>
+<li>Needs to download image data from a Picture Archiving and Communication Service (PACS).</li>
+<li>DICOM (Digital Imaging and Communications in Medicine) started in the mid-<em>80’s</em>.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div>
+<ul>
+<li class="fragment">Where are clinical images stored in a hospital?
+<ul>
+<li class="fragment">A PACS.</li>
+</ul></li>
+<li class="fragment">What is a PACS?
+<ul>
+<li class="fragment">Essentially a networked database.</li>
+</ul></li>
+<li class="fragment">What does it speak?
+<ul>
+<li class="fragment">DICOM.
+<ul>
+<li class="fragment">Defines file format and transfer protocol.</li>
+<li class="fragment"><em>Really</em> comprehensive metadata.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="images-1" class="slide level2">
+<h2>Images</h2>
+<aside class="notes">
+<ol type="1">
+<li>Note the Patient “Genetic Modifications Sequence” and “Species” information.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+<img data-src="images/dicom_example.png" class="r-stretch"></section>
+<section id="images-2" class="slide level2">
+<h2>Images</h2>
+<aside class="notes">
+<ol type="1">
+<li>We need for a user to be able to query a PACS for patient info, scan details, and finally download data.</li>
+<li>The prototype works on NIfTI images. A format commonly used to store MRI brain imaging data, popular with researchers, less so with clinicians.</li>
+<li>The segmentation uses standard SPM12 functions to leave only grey matter.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div>
+<ul>
+<li class="fragment">Use Pynetdicom<sup>1</sup> to search for and download images.</li>
+<li class="fragment">Use several tools to convert to NIfTI<sup>2</sup> format.</li>
+<li class="fragment">Use existing SPM12 container to segment into grey matter image.
+<ul>
+<li class="fragment">Note this segmentation is <em>slow</em>!</li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+<p>1: https://pydicom.github.io/pynetdicom/stable/</p>
+<p>2: Neuroimaging Informatics Technology Initiative: https://nifti.nimh.nih.gov/</p>
+</div>
+</section>
+<section id="building-upon-the-prototype" class="slide level2 smaller">
+<h2>Building upon the prototype</h2>
+<aside class="notes">
+<ol type="1">
+<li>Auth could later be SSO or whatever.</li>
+<li>Search is within the PACS.</li>
+<li>Relevant studies are MRI scans, perhaps with a particular description.</li>
+<li>The download may be slow, or delayed.</li>
+<li>The score retrieval may also be delayed.</li>
+<li>The segmentation takes minutes at 100% CPU.</li>
+<li>The result is stored locally because the user may have wandered off!</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>The PIs want to take this from the prototype to something that can be used in a clinical setting.</p>
+<div>
+<ol type="1">
+<li class="fragment">The user, a clinician, will authenticate to the app.</li>
+<li class="fragment">They will then search for a patient, using patient ID, date of birth, and name.</li>
+<li class="fragment">Once they find them, they choose from any relevant studies.</li>
+<li class="fragment">When they select the study they want the request begins:
+<ol type="1">
+<li class="fragment">The study is downloaded.</li>
+<li class="fragment">The cognitive scores are retrieved.</li>
+<li class="fragment">The study is converted to NIfTI, then segmented.</li>
+<li class="fragment">The ML code is run on this and the cognitive scores.</li>
+<li class="fragment">The result is stored locally.</li>
+</ol></li>
+</ol>
+</div>
+</section>
+<section id="the-new-app" class="slide level2">
+<h2>The New App</h2>
+<aside class="notes">
+<ol type="1">
+<li>XNAT no good because not widely deployed in clinical settings.</li>
+<li>Want some client-server structure.</li>
+<li>ADVANCE.</li>
+<li>First deployed in Addenbrooke’s, then other Cambridge Trust hospital, finally some third party.</li>
+<li>Turns out hospitals are putting all their infra in this fancy fly-by-night thing called the cloud.</li>
+<li>And they don’t want random researchers installing things into their web infra.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p><span class="fragment fade-up"><img data-src="images/AWEBAPP.gif"></span></p>
+<div>
+<ol type="1">
+<li class="fragment">Everyone has a web browser, no need to worry about clients.</li>
+<li class="fragment">Established network protocol, security available.</li>
+<li class="fragment"><span class="fragment semi-fade-out"><span class="fragment strike">Can install it into the existing hospital web infra.</span></span></li>
+<li class="fragment">I’ve written web apps before.</li>
+</ol>
+</div>
+</section>
+<section id="flask" class="slide level2">
+<h2>Flask</h2>
+<aside class="notes">
+<ol type="1">
+<li>My favourite!</li>
+<li>Flask doesn’t require any particular database or structure.</li>
+<li>Instead you add extensions for those things.</li>
+<li>In the example explain this is the entire application. The decorator registers the <code>hello_world</code> function to the <code>"/"</code> route.</li>
+<li>When a request comes in on that route the function is run and its return value sent back to the client.</li>
+<li>Usually have Jinja templates (unless designing an API) which can do Python-like logic.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<p>Flask<sup>1</sup> is a lightweight and extendable web microframework.</p>
+<div class="fragment fade-in">
+<p>A (very) minimal application is:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">from</span> flask <span class="im">import</span> Flask, render_template</span>
+<span id="cb2-2"><a href=""></a></span>
+<span id="cb2-3"><a href=""></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a><span class="at">@app.route</span>(<span class="st">"/"</span>)</span>
+<span id="cb2-6"><a href=""></a><span class="kw">def</span> hello_world():</span>
+<span id="cb2-7"><a href=""></a>    <span class="cf">return</span> <span class="st">"&lt;p&gt;Hello, World!&lt;/p&gt;"</span></span>
+<span id="cb2-8"><a href=""></a></span>
+<span id="cb2-9"><a href=""></a><span class="at">@app.route</span>(<span class="st">'/hello/'</span>)</span>
+<span id="cb2-10"><a href=""></a><span class="at">@app.route</span>(<span class="st">'/hello/&lt;name&gt;'</span>)</span>
+<span id="cb2-11"><a href=""></a><span class="kw">def</span> hello(name<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-12"><a href=""></a>    <span class="cf">return</span> render_template(<span class="st">'hello.html'</span>, person<span class="op">=</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p>1: https://flask.palletsprojects.com/</p>
+</div>
+</section>
+<section id="flask-app" class="slide level2">
+<h2>Flask App</h2>
+<p>So we wrote a fairly simple Flask app with the following routes:</p>
+<pre><code>Endpoint                  Methods    Rule
+------------------------  ---------  -----------------------
+auth.login                GET, POST  /login
+main.home_page            GET        /
+main.search_previous      GET, POST  /search_previous
+main.select_patient       GET, POST  /select_patient
+main.select_series        GET        /select_series
+main.select_study         GET        /select_study
+main.explain_no_config    GET        /explain_no_config
+main.request_score        GET        /request_score
+main.confirm_delete       GET        /confirm_delete
+main.delete_request       GET        /delete_request
+main.view_request         GET        /view_request
+admin.add_user            GET, POST  /add_user
+admin.admin_home_page     GET        /admin
+admin.edit_configuration  GET, POST  /edit_configuration
+admin.edit_user           GET, POST  /edit_user
+admin.edit_users          GET        /edit_users
+admin.view_logs           GET        /view_logs
+static                    GET        /static/&lt;path:filename&gt;</code></pre>
+<aside class="notes">
+<ol type="1">
+<li>There’s a login page that sets a local cookie once authenticated. Handled by a Flask extension, Flask-login. All other routes are marked as “for logged in users only”.</li>
+<li>The <code>main</code> routes allow the clinician to search a PACS for patients, then for MRI studies for that patient, then download them.</li>
+<li>Also to submit a request for a score calculation.</li>
+<li>Forms go to <code>POST</code> routes, simplified by an extension, Flask-WTForms.</li>
+<li>Finally some admin routes that are only available to users marked as “admin”, for adding users and so on.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="where-to-run-the-flask-app" class="slide level2">
+<h2>Where to run the flask app?</h2>
+<div>
+<ol type="1">
+<li class="fragment">We don’t want to run it inside the Docker container with the ancient Matlab, Debian, etc, because that’s old.</li>
+<li class="fragment">Don’t want to assume what the client will have installed.</li>
+<li class="fragment">I know….</li>
+</ol>
+</div>
+<div class="fragment fade-in">
+<div class="r-fit-text">
+<p>Another Docker container!</p>
+</div>
+</div>
+</section>
+<section id="app-design" class="slide level2">
+<h2>App design</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 418.140625 195.51626586914062" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-7" height="400">
+<style>#mermaid-figure-7{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-7 .error-icon{fill:#552222;}#mermaid-figure-7 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-7 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-7 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-7 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-7 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-7 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-7 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-7 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-7 .marker.cross{stroke:#333333;}#mermaid-figure-7 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-7 p{margin:0;}#mermaid-figure-7 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-7 .cluster-label text{fill:#333;}#mermaid-figure-7 .cluster-label span{color:#333;}#mermaid-figure-7 .cluster-label span p{background-color:transparent;}#mermaid-figure-7 .label text,#mermaid-figure-7 span{fill:#333;color:#333;}#mermaid-figure-7 .node rect,#mermaid-figure-7 .node circle,#mermaid-figure-7 .node ellipse,#mermaid-figure-7 .node polygon,#mermaid-figure-7 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-7 .rough-node .label text,#mermaid-figure-7 .node .label text{text-anchor:middle;}#mermaid-figure-7 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-7 .node .label{text-align:center;}#mermaid-figure-7 .node.clickable{cursor:pointer;}#mermaid-figure-7 .arrowheadPath{fill:#333333;}#mermaid-figure-7 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-7 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-7 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-7 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-7 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-7 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-7 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-7 .cluster text{fill:#333;}#mermaid-figure-7 .cluster span{color:#333;}#mermaid-figure-7 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-7 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-7 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070656_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070656_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070656_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070656_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070656_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070656_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741070656_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M166.969,65.379L178.008,60.316C189.047,55.253,211.125,45.126,224.247,40.063C237.37,35,241.536,35,245.036,35C248.536,35,251.37,35,252.786,35L254.203,35"></path><path marker-end="url(#mermaid-1730741070656_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_C_1" d="M166.969,119.379L178.008,124.442C189.047,129.505,211.125,139.632,225.636,144.695C240.147,149.758,247.091,149.758,253.368,149.758C259.646,149.758,265.257,149.758,268.062,149.758L270.867,149.758"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(108.1015625, 92.37906455993652)" id="flowchart-A-0" class="node default"><rect height="54" width="200.203125" y="-27" x="-100.1015625" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-70.1015625, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="140.203125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Flask app container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 35)" id="flowchart-B-1" class="node default"><rect height="54" width="151.9375" y="-27" x="-75.96875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-45.96875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="91.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+ML container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 149.75812911987305)" id="flowchart-C-3" class="node default"><path transform="translate(-59.3046875, -37.75812969020589)" style="" class="basic label-container" d="M0,12.172086460137258 a59.3046875,12.172086460137258 0,0,0 118.609375,0 a59.3046875,12.172086460137258 0,0,0 -118.609375,0 l0,51.17208646013726 a59.3046875,12.172086460137258 0,0,0 118.609375,0 l0,-51.17208646013726"></path><g transform="translate(-51.8046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="103.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap server
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<ol type="1">
+<li>The Flask app handles the users and interacts with the ML container and the remote REDCap server.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="database" class="slide level2">
+<h2>Database</h2>
+<div>
+<ul>
+<li class="fragment">App will need users, authentication.
+<ul>
+<li class="fragment">So needs somewhere to store usernames, hashes.</li>
+</ul></li>
+<li class="fragment">Also track the requests a clinician has made.</li>
+<li class="fragment"><em>Could</em> use SQLite but gives problems later.</li>
+<li class="fragment">Really like to use PostgreSQL<sup>1</sup>.
+<ul>
+<li class="fragment">Should we assume hospital has it installed?</li>
+<li class="fragment">No…</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment fade-in">
+<p><img data-src="images/a_container.gif"></p>
+</div>
+<aside class="notes">
+<ol type="1">
+<li>While it is possible to hook into SSO, etc, we will start with a local authentication mechanism.</li>
+<li>The clinician makes a request, we will need to store information like patient details somewhere.</li>
+<li>SQLite builtin to Python, nice database but it will prove problematic in later steps.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="footer">
+<p>1: https://www.postgresql.org/</p>
+</div>
+</section>
+<section id="app-design-2" class="slide level2">
+<h2>App design 2</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 -35 655.734375 230.51625061035156" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-6" height="400">
+<style>#mermaid-figure-6{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-6 .error-icon{fill:#552222;}#mermaid-figure-6 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-6 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-6 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-6 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-6 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-6 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-6 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-6 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-6 .marker.cross{stroke:#333333;}#mermaid-figure-6 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-6 p{margin:0;}#mermaid-figure-6 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-6 .cluster-label text{fill:#333;}#mermaid-figure-6 .cluster-label span{color:#333;}#mermaid-figure-6 .cluster-label span p{background-color:transparent;}#mermaid-figure-6 .label text,#mermaid-figure-6 span{fill:#333;color:#333;}#mermaid-figure-6 .node rect,#mermaid-figure-6 .node circle,#mermaid-figure-6 .node ellipse,#mermaid-figure-6 .node polygon,#mermaid-figure-6 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-6 .rough-node .label text,#mermaid-figure-6 .node .label text{text-anchor:middle;}#mermaid-figure-6 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-6 .node .label{text-align:center;}#mermaid-figure-6 .node.clickable{cursor:pointer;}#mermaid-figure-6 .arrowheadPath{fill:#333333;}#mermaid-figure-6 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-6 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-6 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-6 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-6 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-6 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-6 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-6 .cluster text{fill:#333;}#mermaid-figure-6 .cluster span{color:#333;}#mermaid-figure-6 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-6 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-6 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070485_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070485_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070485_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070485_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070485_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070485_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741070485_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M137.535,72.758L153.48,87.384C169.424,102.011,201.314,131.264,219.342,145.89C237.37,160.516,241.536,160.516,245.036,160.516C248.536,160.516,251.37,160.516,252.786,160.516L254.203,160.516"></path><path marker-end="url(#mermaid-1730741070485_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_D_1" d="M154.526,18.758L167.639,11.132C180.752,3.505,206.977,-11.747,236.918,-19.374C266.859,-27,300.516,-27,334.172,-27C367.828,-27,401.484,-27,425.361,-21.437C449.238,-15.874,463.336,-4.747,476.91,5.966C490.485,16.679,503.536,26.98,510.062,32.13L516.587,37.28"></path><path marker-end="url(#mermaid-1730741070485_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_D_2" d="M410.141,160.516L414.307,160.516C418.474,160.516,426.807,160.516,438.023,154.953C449.238,149.39,463.336,138.264,476.91,127.55C490.485,116.837,503.536,106.537,510.062,101.386L516.587,96.236"></path><path marker-end="url(#mermaid-1730741070485_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_C_3" d="M208.203,45.758L212.37,45.758C216.536,45.758,224.87,45.758,232.508,45.758C240.147,45.758,247.091,45.758,253.368,45.758C259.646,45.758,265.257,45.758,268.062,45.758L270.867,45.758"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(108.1015625, 45.75812911987305)" id="flowchart-A-0" class="node default"><rect height="54" width="200.203125" y="-27" x="-100.1015625" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-70.1015625, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="140.203125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Flask app container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 160.5162582397461)" id="flowchart-B-1" class="node default"><rect height="54" width="151.9375" y="-27" x="-75.96875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-45.96875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="91.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+ML container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 66.75812911987305)" id="flowchart-D-3" class="node default"><rect height="54" width="187.59375" y="-27" x="-93.796875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-63.796875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="127.59375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+PostgreSQL server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 45.75812911987305)" id="flowchart-C-7" class="node default"><path transform="translate(-59.3046875, -37.75812969020589)" style="" class="basic label-container" d="M0,12.172086460137258 a59.3046875,12.172086460137258 0,0,0 118.609375,0 a59.3046875,12.172086460137258 0,0,0 -118.609375,0 l0,51.17208646013726 a59.3046875,12.172086460137258 0,0,0 118.609375,0 l0,-51.17208646013726"></path><g transform="translate(-51.8046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="103.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap server
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="sqlalchemy1" class="slide level2">
+<h2>SQLAlchemy<sup>1</sup></h2>
+<aside class="notes">
+<ol type="1">
+<li>SQLAlchemy is a Python SQL toolkit and Object Relational Manager.</li>
+<li>Captures the description of each table in the DB in <em>Python</em> code.</li>
+<li>Only store the schema in one place.</li>
+<li>Can automatically create the entire DB. Extensions to migrate between versions.</li>
+<li>Provides Pythonic way to address database joins.</li>
+<li>So in example shown, each Request references a single User by its <code>id</code> (line 15).</li>
+<li>By declaring a <code>relationship</code> (line 16) we can reference the User object that the request is owned by directly. We also use <code>back_populates</code> to get a list of Requests that each User owns. All accessing the database is lazy.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="fragment fade-in">
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="kw">class</span> User(UserMixin, db.Model):</span>
+<span id="cb4-2"><a href=""></a>    </span>
+<span id="cb4-3"><a href=""></a>    <span class="bu">id</span> <span class="op">=</span> db.Column(db.Integer, primary_key<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-4"><a href=""></a>    username <span class="op">=</span> db.Column(db.String(length<span class="op">=</span><span class="dv">64</span>), unique<span class="op">=</span><span class="va">True</span>, index<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-5"><a href=""></a>                         nullable<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-6"><a href=""></a>    <span class="co"># as per https://www.rfc-editor.org/errata_search.php?rfc=3696&amp;eid=1690</span></span>
+<span id="cb4-7"><a href=""></a>    email <span class="op">=</span> db.Column(db.String(length<span class="op">=</span><span class="dv">254</span>))                     </span>
+<span id="cb4-8"><a href=""></a>    password_hash <span class="op">=</span> db.Column(db.String(length<span class="op">=</span><span class="dv">128</span>), nullable<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-9"><a href=""></a>    is_admin <span class="op">=</span> db.Column(db.Boolean, nullable<span class="op">=</span><span class="va">False</span>, default<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-10"><a href=""></a>    requests <span class="op">=</span> relationship(<span class="st">'Request'</span>)</span>
+<span id="cb4-11"><a href=""></a></span>
+<span id="cb4-12"><a href=""></a><span class="kw">class</span> Request(db.Model):</span>
+<span id="cb4-13"><a href=""></a></span>
+<span id="cb4-14"><a href=""></a>    <span class="bu">id</span> <span class="op">=</span> db.Column(db.Integer, primary_key<span class="op">=</span><span class="va">True</span>)  <span class="co"># internal ID</span></span>
+<span id="cb4-15"><a href=""></a>    user_id <span class="op">=</span> db.Column(db.Integer, db.ForeignKey(<span class="st">'user.id'</span>), nullable<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb4-16"><a href=""></a>    user <span class="op">=</span> relationship(<span class="st">'User'</span>, back_populates<span class="op">=</span><span class="st">'requests'</span>)</span>
+<span id="cb4-17"><a href=""></a>    series_instance_uid <span class="op">=</span> db.Column(db.String(length<span class="op">=</span><span class="dv">64</span>),</span>
+<span id="cb4-18"><a href=""></a>                                    nullable<span class="op">=</span><span class="va">False</span>)  <span class="co"># UI</span></span>
+<span id="cb4-19"><a href=""></a>    patient_id <span class="op">=</span> db.Column(db.Text, ForeignKey(<span class="st">'patient.patient_id'</span>),</span>
+<span id="cb4-20"><a href=""></a>                           nullable<span class="op">=</span><span class="va">False</span>)  <span class="co"># LO</span></span>
+<span id="cb4-21"><a href=""></a>    patient <span class="op">=</span> relationship(<span class="st">'Patient'</span>)</span>
+<span id="cb4-22"><a href=""></a>    study_description <span class="op">=</span> db.Column(db.Text)  <span class="co"># LO</span></span>
+<span id="cb4-23"><a href=""></a>    study_date <span class="op">=</span> db.Column(db.Date)  <span class="co"># DA</span></span>
+<span id="cb4-24"><a href=""></a>    series_description <span class="op">=</span> db.Column(db.Text)  <span class="co"># LO</span></span>
+<span id="cb4-25"><a href=""></a>    series_date <span class="op">=</span> db.Column(db.Date)  <span class="co"># DA</span></span>
+<span id="cb4-26"><a href=""></a>    series_description <span class="op">=</span> db.Column(db.Text)  <span class="co"># LO</span></span>
+<span id="cb4-27"><a href=""></a>    mr_scan_path <span class="op">=</span> db.Column(db.Text)</span>
+<span id="cb4-28"><a href=""></a>    mr_scan_path_nifti <span class="op">=</span> db.Column(db.Text)</span>
+<span id="cb4-29"><a href=""></a>    gm_scan_path <span class="op">=</span> db.Column(db.Text)</span>
+<span id="cb4-30"><a href=""></a>    <span class="co"># will fix but currently scores parsed as</span></span>
+<span id="cb4-31"><a href=""></a>    <span class="co"># comma sep list by scripts</span></span>
+<span id="cb4-32"><a href=""></a>    score_data <span class="op">=</span> db.Column(db.Text)</span>
+<span id="cb4-33"><a href=""></a>    <span class="co"># result_data stores JSON encoded result data.</span></span>
+<span id="cb4-34"><a href=""></a>    result_data <span class="op">=</span> db.Column(db.Text, default<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st">'</span>)</span>
+<span id="cb4-35"><a href=""></a>    request_date <span class="op">=</span> db.Column(db.DateTime, server_default<span class="op">=</span>func.now())</span>
+<span id="cb4-36"><a href=""></a>    result_date <span class="op">=</span> db.Column(db.DateTime)</span>
+<span id="cb4-37"><a href=""></a>    <span class="co"># Choose 40 chars because we might use git commit SHAs as version</span></span>
+<span id="cb4-38"><a href=""></a>    <span class="co"># markers one day?</span></span>
+<span id="cb4-39"><a href=""></a>    result_version <span class="op">=</span> db.Column(db.String(<span class="dv">40</span>))</span>
+<span id="cb4-40"><a href=""></a>    task_id <span class="op">=</span> db.Column(db.String(<span class="dv">36</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="footer">
+<p>1: https://www.sqlalchemy.org/</p>
+</div>
+</section>
+<section id="sqlalchemy" class="slide level2">
+<h2>SQLAlchemy</h2>
+<aside class="notes">
+<ol type="1">
+<li>There’s also a Flask-SQLAlchemy extension.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="op">&gt;&gt;&gt;</span> simon <span class="op">=</span> User.query.get(<span class="dv">1</span>)</span>
+<span id="cb5-2"><a href=""></a><span class="op">&gt;&gt;&gt;</span> simon.username</span>
+<span id="cb5-3"><a href=""></a><span class="co">'simon'</span></span>
+<span id="cb5-4"><a href=""></a><span class="op">&gt;&gt;&gt;</span> simon.password_hash</span>
+<span id="cb5-5"><a href=""></a><span class="co">'pbkdf2:sha256:600000$P950Nsh7qgGMblJB$8b247bac3ff808890f3bf4e316fdfa77ab03d749c534f6227d6dc6676275b60c'</span></span>
+<span id="cb5-6"><a href=""></a><span class="op">&gt;&gt;&gt;</span> simon.requests</span>
+<span id="cb5-7"><a href=""></a>[<span class="op">&lt;</span>Request <span class="dv">4</span><span class="op">&gt;</span>, <span class="op">&lt;</span>Request <span class="dv">5</span><span class="op">&gt;</span>, <span class="op">&lt;</span>Request <span class="dv">6</span><span class="op">&gt;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-segmentation-process" class="slide level2">
+<h2>The segmentation process</h2>
+<aside class="notes">
+<ol type="1">
+<li>The segmentation process may be slow. Might take minutes, should probably run serially with other segmentations.</li>
+<li>But web requests are pretty much immediate (apart from streaming, etc).</li>
+<li>So we need an asynchronous system: user submits request, goes away, comes back later.</li>
+<li>Celery is a task queue sytem: put tasks in the queue, workers will process them.</li>
+<li>Celery needs a broker, effectively a fast database / cache, which manages the tasks.</li>
+<li>Redis can do this.</li>
+<li>Do we assume it’s there…?</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div>
+<ul>
+<li class="fragment">Segmentation is quite slow.</li>
+<li class="fragment">A web request is expected to finish quickly.</li>
+<li class="fragment">Need asynchronous task management.</li>
+<li class="fragment">Celery<sup>1</sup>!.
+<ul>
+<li class="fragment">But celery needs a broker.</li>
+<li class="fragment">Redis<sup>2</sup>.</li>
+<li class="fragment"><em>Where can we run Redis?</em></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="you-guessed-it" class="slide level2">
+<h2>You guessed it!</h2>
+
+<img data-src="images/another_container.gif" class="r-stretch"><div class="footer">
+<p>1: https://docs.celeryq.dev/en/stable/</p>
+<p>2: https://redis.io/</p>
+</div>
+</section>
+<section id="app-design-2-3" class="slide level2">
+<h2>App design <del>2</del> 3</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 -35 655.734375 313.5162353515625" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-5" height="400">
+<style>#mermaid-figure-5{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-5 .error-icon{fill:#552222;}#mermaid-figure-5 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-5 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-5 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-5 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-5 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-5 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-5 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-5 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-5 .marker.cross{stroke:#333333;}#mermaid-figure-5 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-5 p{margin:0;}#mermaid-figure-5 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-5 .cluster-label text{fill:#333;}#mermaid-figure-5 .cluster-label span{color:#333;}#mermaid-figure-5 .cluster-label span p{background-color:transparent;}#mermaid-figure-5 .label text,#mermaid-figure-5 span{fill:#333;color:#333;}#mermaid-figure-5 .node rect,#mermaid-figure-5 .node circle,#mermaid-figure-5 .node ellipse,#mermaid-figure-5 .node polygon,#mermaid-figure-5 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-5 .rough-node .label text,#mermaid-figure-5 .node .label text{text-anchor:middle;}#mermaid-figure-5 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-5 .node .label{text-align:center;}#mermaid-figure-5 .node.clickable{cursor:pointer;}#mermaid-figure-5 .arrowheadPath{fill:#333333;}#mermaid-figure-5 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-5 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-5 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-5 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-5 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-5 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-5 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-5 .cluster text{fill:#333;}#mermaid-figure-5 .cluster span{color:#333;}#mermaid-figure-5 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-5 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-5 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070304_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070304_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070304_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070304_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070304_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070304_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741070304_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M166.969,130.137L178.008,135.2C189.047,140.264,211.125,150.39,224.247,155.453C237.37,160.516,241.536,160.516,245.036,160.516C248.536,160.516,251.37,160.516,252.786,160.516L254.203,160.516"></path><path marker-end="url(#mermaid-1730741070304_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_D_1" d="M134.057,76.137L150.581,58.948C167.106,41.758,200.154,7.379,233.507,-9.81C266.859,-27,300.516,-27,334.172,-27C367.828,-27,401.484,-27,425.361,-21.437C449.238,-15.874,463.336,-4.747,476.91,5.966C490.485,16.679,503.536,26.98,510.062,32.13L516.587,37.28"></path><path marker-end="url(#mermaid-1730741070304_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_D_2" d="M410.141,160.516L414.307,160.516C418.474,160.516,426.807,160.516,438.023,154.953C449.238,149.39,463.336,138.264,476.91,127.55C490.485,116.837,503.536,106.537,510.062,101.386L516.587,96.236"></path><path marker-end="url(#mermaid-1730741070304_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_E_3" d="M136.396,130.137L152.53,145.534C168.665,160.93,200.934,191.723,233.897,207.12C266.859,222.516,300.516,222.516,334.172,222.516C367.828,222.516,401.484,222.516,421.111,223.011C440.738,223.506,446.336,224.495,451.277,225.369C456.218,226.242,460.503,227,462.645,227.378L464.788,227.757"></path><path marker-end="url(#mermaid-1730741070304_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_E_4" d="M363.485,187.516L375.428,198.516C387.37,209.516,411.256,231.516,425.997,242.281C440.738,253.045,446.336,252.574,451.269,252.159C456.203,251.743,460.472,251.384,462.606,251.204L464.741,251.025"></path><path marker-end="url(#mermaid-1730741070304_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_C_5" d="M166.969,76.137L178.008,71.074C189.047,66.011,211.125,55.884,225.636,50.821C240.147,45.758,247.091,45.758,253.368,45.758C259.646,45.758,265.257,45.758,268.062,45.758L270.867,45.758"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(108.1015625, 103.13719367980957)" id="flowchart-A-0" class="node default"><rect height="54" width="200.203125" y="-27" x="-100.1015625" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-70.1015625, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="140.203125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Flask app container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 160.5162582397461)" id="flowchart-B-1" class="node default"><rect height="54" width="151.9375" y="-27" x="-75.96875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-45.96875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="91.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+ML container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 66.75812911987305)" id="flowchart-D-3" class="node default"><rect height="54" width="187.59375" y="-27" x="-93.796875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-63.796875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="127.59375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+PostgreSQL server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 243.5162582397461)" id="flowchart-E-7" class="node default"><rect height="54" width="170.421875" y="-27" x="-85.2109375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-55.2109375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="110.421875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Redis container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 45.75812911987305)" id="flowchart-C-11" class="node default"><path transform="translate(-59.3046875, -37.75812969020589)" style="" class="basic label-container" d="M0,12.172086460137258 a59.3046875,12.172086460137258 0,0,0 118.609375,0 a59.3046875,12.172086460137258 0,0,0 -118.609375,0 l0,51.17208646013726 a59.3046875,12.172086460137258 0,0,0 118.609375,0 l0,-51.17208646013726"></path><g transform="translate(-51.8046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="103.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap server
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="network-security-paramount" class="slide level2">
+<h2>Network security paramount</h2>
+<aside class="notes">
+<ol type="1">
+<li>App accessed through specialised interface called WSGI.</li>
+<li>WSGI servers are usually specialised for this purpose, not always for TLS.</li>
+<li>The web infra that we may or may not be installing into may already have TLS (i.e.&nbsp;we’re a part of an existing website).</li>
+<li>So this needs to be optional: a reverse proxy that handles TLS and isn’t missed if it’s not there.</li>
+<li>Easily done in nginx.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div>
+<ul>
+<li class="fragment">Web Services Gateway Interface.</li>
+<li class="fragment">Host may already do this.</li>
+<li class="fragment">Use nginx<sup>1</sup>.</li>
+<li class="fragment">Where can it go?
+<ul>
+<li class="fragment">WHERE CAN IT GO, SIMON?</li>
+</ul></li>
+</ul>
+</div>
+<div class="footer">
+<p>1: https://nginx.org/</p>
+</div>
+</section>
+<section id="con-tainer" class="slide level2">
+<h2>Con Tainer?</h2>
+
+<img data-src="images/yet_another_container.gif" class="r-stretch"></section>
+<section id="app-design-2-3-4" class="slide level2">
+<h2>App design <del>2</del> <del>3</del> 4</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 -35 655.734375 417.51629638671875" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-4" height="400">
+<style>#mermaid-figure-4{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-4 .error-icon{fill:#552222;}#mermaid-figure-4 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-4 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-4 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-4 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-4 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-4 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-4 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-4 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-4 .marker.cross{stroke:#333333;}#mermaid-figure-4 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-4 p{margin:0;}#mermaid-figure-4 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-4 .cluster-label text{fill:#333;}#mermaid-figure-4 .cluster-label span{color:#333;}#mermaid-figure-4 .cluster-label span p{background-color:transparent;}#mermaid-figure-4 .label text,#mermaid-figure-4 span{fill:#333;color:#333;}#mermaid-figure-4 .node rect,#mermaid-figure-4 .node circle,#mermaid-figure-4 .node ellipse,#mermaid-figure-4 .node polygon,#mermaid-figure-4 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-4 .rough-node .label text,#mermaid-figure-4 .node .label text{text-anchor:middle;}#mermaid-figure-4 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-4 .node .label{text-align:center;}#mermaid-figure-4 .node.clickable{cursor:pointer;}#mermaid-figure-4 .arrowheadPath{fill:#333333;}#mermaid-figure-4 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-4 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-4 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-4 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-4 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-4 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-4 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-4 .cluster text{fill:#333;}#mermaid-figure-4 .cluster span{color:#333;}#mermaid-figure-4 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-4 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-4 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070127_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070127_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070127_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741070127_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070127_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741070127_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M140.58,187.516L156.017,200.35C171.454,213.183,202.329,238.85,219.849,251.683C237.37,264.516,241.536,264.516,245.036,264.516C248.536,264.516,251.37,264.516,252.786,264.516L254.203,264.516"></path><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_D_1" d="M126.115,133.516L143.963,106.764C161.811,80.011,197.507,26.505,232.183,-0.247C266.859,-27,300.516,-27,334.172,-27C367.828,-27,401.484,-27,426.378,-17.103C451.272,-7.207,467.404,12.586,483.115,31.862C498.826,51.139,514.115,69.898,521.76,79.278L529.405,88.658"></path><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_D_2" d="M410.141,264.516L414.307,264.516C418.474,264.516,426.807,264.516,439.04,254.62C451.272,244.723,467.404,224.93,483.115,205.654C498.826,186.378,514.115,167.618,521.76,158.238L529.405,148.859"></path><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_E_3" d="M128.449,187.516L145.908,210.683C163.367,233.85,198.285,280.183,232.572,303.35C266.859,326.516,300.516,326.516,334.172,326.516C367.828,326.516,401.484,326.516,421.111,327.011C440.738,327.506,446.336,328.495,451.277,329.369C456.218,330.242,460.503,331,462.645,331.378L464.788,331.757"></path><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_E_4" d="M363.485,291.516L375.428,302.516C387.37,313.516,411.256,335.516,425.997,346.281C440.738,357.045,446.336,356.574,451.269,356.159C456.203,355.743,460.472,355.384,462.606,355.204L464.741,355.025"></path><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_C_5" d="M137.535,133.516L153.48,118.89C169.424,104.264,201.314,75.011,220.73,60.384C240.147,45.758,247.091,45.758,253.368,45.758C259.646,45.758,265.257,45.758,268.062,45.758L270.867,45.758"></path><path marker-end="url(#mermaid-1730741070127_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_Z_6" d="M208.203,160.516L212.37,160.516C216.536,160.516,224.87,160.516,233.363,160.516C241.857,160.516,250.51,160.516,258.497,160.516C266.484,160.516,273.805,160.516,277.465,160.516L281.125,160.516"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(108.1015625, 160.5162582397461)" id="flowchart-A-0" class="node default"><rect height="54" width="200.203125" y="-27" x="-100.1015625" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-70.1015625, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="140.203125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Flask app container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 264.5162582397461)" id="flowchart-B-1" class="node default"><rect height="54" width="151.9375" y="-27" x="-75.96875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-45.96875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="91.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+ML container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 118.75812911987305)" id="flowchart-D-3" class="node default"><rect height="54" width="187.59375" y="-27" x="-93.796875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-63.796875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="127.59375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+PostgreSQL server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 347.5162582397461)" id="flowchart-E-7" class="node default"><rect height="54" width="170.421875" y="-27" x="-85.2109375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-55.2109375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="110.421875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Redis container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 45.75812911987305)" id="flowchart-C-11" class="node default"><path transform="translate(-59.3046875, -37.75812969020589)" style="" class="basic label-container" d="M0,12.172086460137258 a59.3046875,12.172086460137258 0,0,0 118.609375,0 a59.3046875,12.172086460137258 0,0,0 -118.609375,0 l0,51.17208646013726 a59.3046875,12.172086460137258 0,0,0 118.609375,0 l0,-51.17208646013726"></path><g transform="translate(-51.8046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="103.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 160.5162582397461)" id="flowchart-Z-13" class="node default"><rect height="54" width="98.09375" y="-27" x="-49.046875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-19.046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="38.09375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+nginx
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-about-testing" class="slide level2">
+<h2>What about testing?</h2>
+<aside class="notes">
+<ol type="1">
+<li>Can’t test against live PACS for legal as well as sanity reasons.</li>
+<li>Some mocking is being used, but that can end up skipping or mocking the bits we’re trying to test.</li>
+<li>Orthanc is a free and open source DICOM server for medical imaging from Belgium.</li>
+<li>Safe data is MRI studies that are public domain or that have consented to this use.</li>
+</ol>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div>
+<ul>
+<li class="fragment">Can’t test against live PACS, want to test PACS parts.</li>
+<li class="fragment">Mocking? But this is the hard bit.</li>
+<li class="fragment">Run a DICOM server (Orthanc<sup>1</sup>) with safe data.</li>
+<li class="fragment">Oh ho ho no no.</li>
+</ul>
+</div>
+<div class="footer">
+<p>1: https://www.orthanc-server.com/</p>
+</div>
+</section>
+<section id="app-design-2-3-4-a-millionty" class="slide level2">
+<h2>App design <del>2</del> <del>3</del> <del>4</del> a millionty</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 -35 655.734375 521.5162963867188" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="1000" id="mermaid-figure-3" height="400">
+<style>#mermaid-figure-3{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-3 .error-icon{fill:#552222;}#mermaid-figure-3 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-3 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-3 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-3 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-3 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-3 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-3 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-3 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-3 .marker.cross{stroke:#333333;}#mermaid-figure-3 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-3 p{margin:0;}#mermaid-figure-3 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-3 .cluster-label text{fill:#333;}#mermaid-figure-3 .cluster-label span{color:#333;}#mermaid-figure-3 .cluster-label span p{background-color:transparent;}#mermaid-figure-3 .label text,#mermaid-figure-3 span{fill:#333;color:#333;}#mermaid-figure-3 .node rect,#mermaid-figure-3 .node circle,#mermaid-figure-3 .node ellipse,#mermaid-figure-3 .node polygon,#mermaid-figure-3 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-3 .rough-node .label text,#mermaid-figure-3 .node .label text{text-anchor:middle;}#mermaid-figure-3 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-3 .node .label{text-align:center;}#mermaid-figure-3 .node.clickable{cursor:pointer;}#mermaid-figure-3 .arrowheadPath{fill:#333333;}#mermaid-figure-3 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-3 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-3 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-3 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-3 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-3 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-3 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-3 .cluster text{fill:#333;}#mermaid-figure-3 .cluster span{color:#333;}#mermaid-figure-3 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-3 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-3 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069941_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069941_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069941_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069941_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741069941_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741069941_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M129.754,239.516L146.995,261.016C164.237,282.516,198.72,325.516,218.045,347.016C237.37,368.516,241.536,368.516,245.036,368.516C248.536,368.516,251.37,368.516,252.786,368.516L254.203,368.516"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_D_1" d="M122.204,185.516L140.704,150.097C159.204,114.678,196.203,43.839,231.531,8.419C266.859,-27,300.516,-27,334.172,-27C367.828,-27,401.484,-27,426.861,-12.77C452.237,1.46,469.333,29.919,486.086,57.808C502.839,85.696,519.249,113.013,527.453,126.671L535.658,140.329"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_D_2" d="M410.141,368.516L414.307,368.516C418.474,368.516,426.807,368.516,439.522,354.286C452.237,340.057,469.333,311.597,486.086,283.709C502.839,255.82,519.249,228.504,527.453,214.845L535.658,201.187"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_E_3" d="M123.596,239.516L141.864,271.35C160.132,303.183,196.667,366.85,231.763,398.683C266.859,430.516,300.516,430.516,334.172,430.516C367.828,430.516,401.484,430.516,421.111,431.011C440.738,431.506,446.336,432.495,451.277,433.369C456.218,434.242,460.503,435,462.645,435.378L464.788,435.757"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_E_4" d="M363.485,395.516L375.428,406.516C387.37,417.516,411.256,439.516,425.997,450.281C440.738,461.045,446.336,460.574,451.269,460.159C456.203,459.743,460.472,459.384,462.606,459.204L464.741,459.025"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_C_5" d="M128.357,185.516L145.831,162.223C163.306,138.93,198.254,92.344,219.201,69.051C240.147,45.758,247.091,45.758,253.368,45.758C259.646,45.758,265.257,45.758,268.062,45.758L270.867,45.758"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_Z_6" d="M173.058,185.516L183.082,181.35C193.106,177.183,213.155,168.85,227.506,164.683C241.857,160.516,250.51,160.516,258.497,160.516C266.484,160.516,273.805,160.516,277.465,160.516L281.125,160.516"></path><path marker-end="url(#mermaid-1730741069941_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-dotted edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_X_7" d="M173.058,239.516L183.082,243.683C193.106,247.85,213.155,256.183,226.712,260.35C240.268,264.516,247.333,264.516,253.732,264.516C260.13,264.516,265.862,264.516,268.728,264.516L271.594,264.516"></path></g><g class="edgeLabels"><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(108.1015625, 212.5162582397461)" id="flowchart-A-0" class="node default"><rect height="54" width="200.203125" y="-27" x="-100.1015625" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-70.1015625, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="140.203125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Flask app container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 368.5162582397461)" id="flowchart-B-1" class="node default"><rect height="54" width="151.9375" y="-27" x="-75.96875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-45.96875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="91.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+ML container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 170.75812911987305)" id="flowchart-D-3" class="node default"><rect height="54" width="187.59375" y="-27" x="-93.796875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-63.796875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="127.59375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+PostgreSQL server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(553.9375, 451.5162582397461)" id="flowchart-E-7" class="node default"><rect height="54" width="170.421875" y="-27" x="-85.2109375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-55.2109375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="110.421875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Redis container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 45.75812911987305)" id="flowchart-C-11" class="node default"><path transform="translate(-59.3046875, -37.75812969020589)" style="" class="basic label-container" d="M0,12.172086460137258 a59.3046875,12.172086460137258 0,0,0 118.609375,0 a59.3046875,12.172086460137258 0,0,0 -118.609375,0 l0,51.17208646013726 a59.3046875,12.172086460137258 0,0,0 118.609375,0 l0,-51.17208646013726"></path><g transform="translate(-51.8046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="103.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap server
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 160.5162582397461)" id="flowchart-Z-13" class="node default"><rect height="54" width="98.09375" y="-27" x="-49.046875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-19.046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="38.09375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+nginx
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(334.171875, 264.5162582397461)" id="flowchart-X-15" class="node default"><rect height="54" width="117.15625" y="-27" x="-58.578125" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-28.578125, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="57.15625">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Orthanc
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="docker-compose" class="slide level2">
+<h2>Docker compose</h2>
+<div>
+<ul>
+<li class="fragment">Docker compose manages multiple containers (<em>services</em>).
+<ul>
+<li class="fragment">Easier to define shared networks, storage.</li>
+</ul></li>
+</ul>
+</div>
+<div class="fragment fade-in">
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb6-1"><a href=""></a><span class="co"># Helpful name prefix for all containers.</span></span>
+<span id="cb6-2"><a href=""></a>name: ai_dementia</span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a>services:</span>
+<span id="cb6-5"><a href=""></a>  <span class="co"># Test PACS, use for development / testing only.</span></span>
+<span id="cb6-6"><a href=""></a>  orthanc:</span>
+<span id="cb6-7"><a href=""></a>    <span class="co"># build: ./orthanc_container</span></span>
+<span id="cb6-8"><a href=""></a>    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_orthanc:latest</span>
+<span id="cb6-9"><a href=""></a>    restart: unless-stopped</span>
+<span id="cb6-10"><a href=""></a>    <span class="co"># ports: ["104:4242", "8080:8042"]</span></span>
+<span id="cb6-11"><a href=""></a>    ports: [<span class="st">"4242:4242"</span>]</span>
+<span id="cb6-12"><a href=""></a>    <span class="co">#ports: ["8080:8042"]</span></span>
+<span id="cb6-13"><a href=""></a>    <span class="co"># uncomment this when adding entries</span></span>
+<span id="cb6-14"><a href=""></a>    <span class="co">#volumes: ["/tmp/orthanc-storage:/var/lib/orthanc"]</span></span>
+<span id="cb6-15"><a href=""></a>    environment:</span>
+<span id="cb6-16"><a href=""></a>      ORTHANC__NAME: <span class="st">"The Orthanc"</span></span>
+<span id="cb6-17"><a href=""></a>      VERBOSE_ENABLED: <span class="st">"true"</span></span>
+<span id="cb6-18"><a href=""></a>      ORTHANC__REGISTERED_USERS: |</span>
+<span id="cb6-19"><a href=""></a>        {<span class="st">"demo"</span>: <span class="st">"demo"</span>}</span>
+<span id="cb6-20"><a href=""></a>      ORTHANC__DICOM_MODALITIES: |</span>
+<span id="cb6-21"><a href=""></a>        {</span>
+<span id="cb6-22"><a href=""></a>        <span class="st">"aid"</span>: [<span class="st">"AIDSCU"</span>, <span class="st">"webapp"</span>, <span class="st">"4242"</span>],</span>
+<span id="cb6-23"><a href=""></a>        <span class="st">"aidmov"</span>: [<span class="st">"STORESCP"</span>, <span class="st">"webapp"</span>, <span class="st">"11113"</span>]</span>
+<span id="cb6-24"><a href=""></a>        }</span>
+<span id="cb6-25"><a href=""></a>    networks:</span>
+<span id="cb6-26"><a href=""></a>      backend:</span>
+<span id="cb6-27"><a href=""></a>        aliases:</span>
+<span id="cb6-28"><a href=""></a>          - orthanc-host</span>
+<span id="cb6-29"><a href=""></a></span>
+<span id="cb6-30"><a href=""></a>  <span class="co"># The broker and backend for Celery.</span></span>
+<span id="cb6-31"><a href=""></a>  redis:</span>
+<span id="cb6-32"><a href=""></a>    image: redis</span>
+<span id="cb6-33"><a href=""></a>    ports: [<span class="st">"6379:6379"</span>]</span>
+<span id="cb6-34"><a href=""></a>    restart: unless-stopped</span>
+<span id="cb6-35"><a href=""></a>    networks:</span>
+<span id="cb6-36"><a href=""></a>      backend:</span>
+<span id="cb6-37"><a href=""></a>        aliases:</span>
+<span id="cb6-38"><a href=""></a>          - redis-host</span>
+<span id="cb6-39"><a href=""></a></span>
+<span id="cb6-40"><a href=""></a>  <span class="co"># The app that serves the pages.</span></span>
+<span id="cb6-41"><a href=""></a>  webapp:</span>
+<span id="cb6-42"><a href=""></a>    <span class="co"># build: ./webapp_container</span></span>
+<span id="cb6-43"><a href=""></a>    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_webapp:latest</span>
+<span id="cb6-44"><a href=""></a>    pull_policy: never</span>
+<span id="cb6-45"><a href=""></a>    restart: unless-stopped</span>
+<span id="cb6-46"><a href=""></a>    ports: [<span class="st">"127.0.0.1:8000:8000"</span>]</span>
+<span id="cb6-47"><a href=""></a>    volumes:</span>
+<span id="cb6-48"><a href=""></a>      - webapp-storage:/shared-volume</span>
+<span id="cb6-49"><a href=""></a>      - config-storage:/config:ro</span>
+<span id="cb6-50"><a href=""></a>    depends_on:</span>
+<span id="cb6-51"><a href=""></a>      - db</span>
+<span id="cb6-52"><a href=""></a>      - redis</span>
+<span id="cb6-53"><a href=""></a>    networks:</span>
+<span id="cb6-54"><a href=""></a>      backend:</span>
+<span id="cb6-55"><a href=""></a>        aliases:</span>
+<span id="cb6-56"><a href=""></a>          - webapp-host</span>
+<span id="cb6-57"><a href=""></a></span>
+<span id="cb6-58"><a href=""></a>  <span class="co"># Container for the ML calculation parts, MATLAB, etc.</span></span>
+<span id="cb6-59"><a href=""></a>  aid_ml:</span>
+<span id="cb6-60"><a href=""></a>    <span class="co"># build: ./aid_ml_container</span></span>
+<span id="cb6-61"><a href=""></a>    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_aid_ml:latest</span>
+<span id="cb6-62"><a href=""></a>    pull_policy: never</span>
+<span id="cb6-63"><a href=""></a>    restart: unless-stopped</span>
+<span id="cb6-64"><a href=""></a>    volumes:</span>
+<span id="cb6-65"><a href=""></a>      - webapp-storage:/shared-volume</span>
+<span id="cb6-66"><a href=""></a>      - config-storage:/config:ro</span>
+<span id="cb6-67"><a href=""></a>    depends_on:</span>
+<span id="cb6-68"><a href=""></a>      - db</span>
+<span id="cb6-69"><a href=""></a>      - redis</span>
+<span id="cb6-70"><a href=""></a>    networks:</span>
+<span id="cb6-71"><a href=""></a>      backend:</span>
+<span id="cb6-72"><a href=""></a>        aliases:</span>
+<span id="cb6-73"><a href=""></a>          - aid_ml-host</span>
+<span id="cb6-74"><a href=""></a></span>
+<span id="cb6-75"><a href=""></a>  <span class="co"># Postgres to store intermediate and final results.</span></span>
+<span id="cb6-76"><a href=""></a>  db:</span>
+<span id="cb6-77"><a href=""></a>    image: postgres</span>
+<span id="cb6-78"><a href=""></a>    restart: unless-stopped</span>
+<span id="cb6-79"><a href=""></a>    environment:</span>
+<span id="cb6-80"><a href=""></a>      POSTGRES_PASSWORD_FILE: /config/app_config/db_password.txt</span>
+<span id="cb6-81"><a href=""></a>      POSTGRES_DB: ai_dementia</span>
+<span id="cb6-82"><a href=""></a>    <span class="co"># Uncomment this to access DB from outside containers</span></span>
+<span id="cb6-83"><a href=""></a>    <span class="co"># DO NOT DO THIS IN PRODUCTION</span></span>
+<span id="cb6-84"><a href=""></a>    ports: [<span class="st">"127.0.0.1:5432:5432"</span>]</span>
+<span id="cb6-85"><a href=""></a>    volumes:</span>
+<span id="cb6-86"><a href=""></a>      - db-storage:/var/lib/postgresql/data</span>
+<span id="cb6-87"><a href=""></a>      - config-storage:/config:ro</span>
+<span id="cb6-88"><a href=""></a>    networks:</span>
+<span id="cb6-89"><a href=""></a>      backend:</span>
+<span id="cb6-90"><a href=""></a>        aliases:</span>
+<span id="cb6-91"><a href=""></a>          - db-host</span>
+<span id="cb6-92"><a href=""></a></span>
+<span id="cb6-93"><a href=""></a>  <span class="co"># Reverse proxy for the webapp.  _May_ not be needed, if client</span></span>
+<span id="cb6-94"><a href=""></a>  <span class="co"># infrastructure can already proxy.  This reverse proxy must be able to</span></span>
+<span id="cb6-95"><a href=""></a>  <span class="co"># handle TLS / SSL because the webapp doesn't.</span></span>
+<span id="cb6-96"><a href=""></a>  proxy_webserver:</span>
+<span id="cb6-97"><a href=""></a>    image: registry.gitlab.developers.cam.ac.uk/rcs/rse/ai-4-medical-images/ai_dementia_web/containers_proxy:latest</span>
+<span id="cb6-98"><a href=""></a>    build: ./proxy_server_container</span>
+<span id="cb6-99"><a href=""></a>    pull_policy: never</span>
+<span id="cb6-100"><a href=""></a>    ports: [<span class="st">"443:443"</span>]</span>
+<span id="cb6-101"><a href=""></a>    volumes:</span>
+<span id="cb6-102"><a href=""></a>      - config-storage:/config:ro</span>
+<span id="cb6-103"><a href=""></a>    networks:</span>
+<span id="cb6-104"><a href=""></a>      backend:</span>
+<span id="cb6-105"><a href=""></a>        aliases:</span>
+<span id="cb6-106"><a href=""></a>          - proxy-host</span>
+<span id="cb6-107"><a href=""></a>    depends_on:</span>
+<span id="cb6-108"><a href=""></a>      - webapp</span>
+<span id="cb6-109"><a href=""></a>    environment:</span>
+<span id="cb6-110"><a href=""></a>      - NGINX_PORT=443</span>
+<span id="cb6-111"><a href=""></a></span>
+<span id="cb6-112"><a href=""></a>  <span class="co"># Deploy container</span></span>
+<span id="cb6-113"><a href=""></a>  <span class="co"># </span><span class="al">TBD</span></span>
+<span id="cb6-114"><a href=""></a></span>
+<span id="cb6-115"><a href=""></a>volumes:</span>
+<span id="cb6-116"><a href=""></a>  <span class="co"># Storage for intermediate files / images.</span></span>
+<span id="cb6-117"><a href=""></a>  webapp-storage:</span>
+<span id="cb6-118"><a href=""></a>  <span class="co"># Storage for the database.</span></span>
+<span id="cb6-119"><a href=""></a>  db-storage:</span>
+<span id="cb6-120"><a href=""></a>  <span class="co"># Storage for configuration and startup / update / etc.</span></span>
+<span id="cb6-121"><a href=""></a>  config-storage:</span>
+<span id="cb6-122"><a href=""></a></span>
+<span id="cb6-123"><a href=""></a>networks:</span>
+<span id="cb6-124"><a href=""></a>  <span class="co"># Network for containers to talk to each other.</span></span>
+<span id="cb6-125"><a href=""></a>  backend:</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="app-design-2-3-4-a-millionty-finalest" class="slide level2">
+<h2>App design <del>2</del> <del>3</del> <del>4</del> <del>a millionty</del> FINALEST</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<svg aria-roledescription="flowchart-v2" role="graphics-document document" viewbox="0 0 1158.328125 553" style="; display: block; margin: auto auto auto auto" class="flowchart" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="960" id="mermaid-figure-2" height="480">
+<style>#mermaid-figure-2{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;fill:#333;}#mermaid-figure-2 .error-icon{fill:#552222;}#mermaid-figure-2 .error-text{fill:#552222;stroke:#552222;}#mermaid-figure-2 .edge-thickness-normal{stroke-width:1px;}#mermaid-figure-2 .edge-thickness-thick{stroke-width:3.5px;}#mermaid-figure-2 .edge-pattern-solid{stroke-dasharray:0;}#mermaid-figure-2 .edge-thickness-invisible{stroke-width:0;fill:none;}#mermaid-figure-2 .edge-pattern-dashed{stroke-dasharray:3;}#mermaid-figure-2 .edge-pattern-dotted{stroke-dasharray:2;}#mermaid-figure-2 .marker{fill:#333333;stroke:#333333;}#mermaid-figure-2 .marker.cross{stroke:#333333;}#mermaid-figure-2 svg{font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:16px;}#mermaid-figure-2 p{margin:0;}#mermaid-figure-2 .label{font-family:"trebuchet ms",verdana,arial,sans-serif;color:#333;}#mermaid-figure-2 .cluster-label text{fill:#333;}#mermaid-figure-2 .cluster-label span{color:#333;}#mermaid-figure-2 .cluster-label span p{background-color:transparent;}#mermaid-figure-2 .label text,#mermaid-figure-2 span{fill:#333;color:#333;}#mermaid-figure-2 .node rect,#mermaid-figure-2 .node circle,#mermaid-figure-2 .node ellipse,#mermaid-figure-2 .node polygon,#mermaid-figure-2 .node path{fill:#ECECFF;stroke:#9370DB;stroke-width:1px;}#mermaid-figure-2 .rough-node .label text,#mermaid-figure-2 .node .label text{text-anchor:middle;}#mermaid-figure-2 .node .katex path{fill:#000;stroke:#000;stroke-width:1px;}#mermaid-figure-2 .node .label{text-align:center;}#mermaid-figure-2 .node.clickable{cursor:pointer;}#mermaid-figure-2 .arrowheadPath{fill:#333333;}#mermaid-figure-2 .edgePath .path{stroke:#333333;stroke-width:2.0px;}#mermaid-figure-2 .flowchart-link{stroke:#333333;fill:none;}#mermaid-figure-2 .edgeLabel{background-color:rgba(232,232,232, 0.8);text-align:center;}#mermaid-figure-2 .edgeLabel p{background-color:rgba(232,232,232, 0.8);}#mermaid-figure-2 .edgeLabel rect{opacity:0.5;background-color:rgba(232,232,232, 0.8);fill:rgba(232,232,232, 0.8);}#mermaid-figure-2 .labelBkg{background-color:rgba(232, 232, 232, 0.5);}#mermaid-figure-2 .cluster rect{fill:#ffffde;stroke:#aaaa33;stroke-width:1px;}#mermaid-figure-2 .cluster text{fill:#333;}#mermaid-figure-2 .cluster span{color:#333;}#mermaid-figure-2 div.mermaidTooltip{position:absolute;text-align:center;max-width:200px;padding:2px;font-family:"trebuchet ms",verdana,arial,sans-serif;font-size:12px;background:hsl(80, 100%, 96.2745098039%);border:1px solid #aaaa33;border-radius:2px;pointer-events:none;z-index:100;}#mermaid-figure-2 .flowchartTitleText{text-anchor:middle;font-size:18px;fill:#333;}#mermaid-figure-2 :root{--mermaid-font-family:"trebuchet ms",verdana,arial,sans-serif;}</style>
+<g><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069738_flowchart-v2-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerheight="8" markerwidth="8" markerunits="userSpaceOnUse" refy="5" refx="4.5" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069738_flowchart-v2-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="11" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069738_flowchart-v2-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5" refx="-1" viewbox="0 0 10 10" class="marker flowchart-v2" id="mermaid-1730741069738_flowchart-v2-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="12" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741069738_flowchart-v2-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerheight="11" markerwidth="11" markerunits="userSpaceOnUse" refy="5.2" refx="-1" viewbox="0 0 11 11" class="marker cross flowchart-v2" id="mermaid-1730741069738_flowchart-v2-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"><g data-look="classic" id="subGraph4" class="cluster"><rect height="526" width="174.59375" y="19" x="975.734375" style=""></rect><g transform="translate(1017.0625, 19)" class="cluster-label"><foreignobject height="24" width="91.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+DB container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g data-look="classic" id="subGraph3" class="cluster"><rect height="228" width="301.796875" y="256" x="623.9375" style=""></rect><g transform="translate(727.8515625, 256)" class="cluster-label"><foreignobject height="24" width="93.96875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+AD Container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g data-look="classic" id="subGraph2" class="cluster"><rect height="444" width="147.34375" y="19" x="324" style=""></rect><g transform="translate(341.640625, 19)" class="cluster-label"><foreignobject height="24" width="112.0625">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Redis Container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g data-look="classic" id="subGraph1" class="cluster"><rect height="228" width="301.796875" y="8" x="623.9375" style=""></rect><g transform="translate(696.3515625, 8)" class="cluster-label"><foreignobject height="24" width="156.96875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+PACS facing Container
+</p>
+</span>
+</div>
+</foreignobject></g></g><g data-look="classic" id="subGraph0" class="cluster"><rect height="350" width="170.609375" y="195" x="8" style=""></rect><g transform="translate(25.8984375, 195)" class="cluster-label"><foreignobject height="24" width="134.8125">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Web App container
+</p>
+</span>
+</div>
+</foreignobject></g></g></g><g class="edgePaths"><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_B_0" d="M118.071,312L128.16,301C138.25,290,158.43,268,180.635,257C202.841,246,227.073,246,251.305,246C275.536,246,299.768,246,313.967,246C328.167,246,332.333,246,335.833,246C339.333,246,342.167,246,343.583,246L345,246"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_E_1" d="M408.974,219L419.369,194.167C429.764,169.333,450.554,119.667,473.665,94.833C496.776,70,522.208,70,547.641,70C573.073,70,598.505,70,614.547,70C630.589,70,637.24,70,643.224,70C649.208,70,654.526,70,657.185,70L659.844,70"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_F_2" d="M425.299,219L432.973,211.5C440.647,204,455.995,189,476.386,181.5C496.776,174,522.208,174,547.641,174C573.073,174,598.505,174,613.305,174C628.104,174,632.271,174,635.771,174C639.271,174,642.104,174,643.521,174L644.938,174"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_C_3" d="M425.299,273L432.973,280.5C440.647,288,455.995,303,476.386,310.5C496.776,318,522.208,318,547.641,318C573.073,318,598.505,318,614.591,318C630.677,318,637.417,318,643.49,318C649.563,318,654.969,318,657.672,318L660.375,318"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_B_D_4" d="M408.974,273L419.369,297.833C429.764,322.667,450.554,372.333,473.665,397.167C496.776,422,522.208,422,547.641,422C573.073,422,598.505,422,614.299,422C630.092,422,636.247,422,641.736,422C647.224,422,652.046,422,654.456,422L656.867,422"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_A_G_5" d="M107.264,366L119.155,389C131.046,412,154.827,458,178.834,481C202.841,504,227.073,504,251.305,504C275.536,504,299.768,504,324.163,504C348.557,504,373.115,504,397.672,504C422.229,504,446.786,504,471.781,504C496.776,504,522.208,504,547.641,504C573.073,504,598.505,504,636.371,504C674.237,504,724.536,504,774.836,504C825.135,504,875.435,504,904.751,504C934.068,504,942.401,504,950.734,504C959.068,504,967.401,504,977.786,490.75C988.172,477.5,1000.609,451,1012.764,425.104C1024.918,399.207,1036.789,373.914,1042.724,361.268L1048.66,348.621"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_C_G_6" d="M885.297,318L892.036,318C898.776,318,912.255,318,923.161,318C934.068,318,942.401,318,950.734,318C959.068,318,967.401,318,973.651,318C979.901,318,984.068,318,987.568,318C991.068,318,993.901,318,995.318,318L996.734,318"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_E_G_7" d="M885.828,70L892.479,70C899.13,70,912.432,70,923.25,70C934.068,70,942.401,70,950.734,70C959.068,70,967.401,70,978.05,88.417C988.7,106.833,1001.665,143.667,1014.409,179.871C1027.154,216.076,1039.676,251.651,1045.938,269.439L1052.199,287.227"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_F_G_8" d="M900.734,174L904.901,174C909.068,174,917.401,174,925.734,174C934.068,174,942.401,174,950.734,174C959.068,174,967.401,174,977.478,183.75C987.556,193.5,999.377,213,1010.853,231.93C1022.329,250.86,1033.459,269.22,1039.024,278.4L1044.589,287.579"></path><path marker-end="url(#mermaid-1730741069738_flowchart-v2-pointEnd)" style="" class="edge-thickness-normal edge-pattern-solid edge-thickness-normal edge-pattern-solid flowchart-link" id="L_D_G_9" d="M888.805,422L894.96,422C901.115,422,913.424,422,923.746,422C934.068,422,942.401,422,950.734,422C959.068,422,967.401,422,976.954,415.583C986.507,409.167,997.279,396.333,1007.622,384.011C1017.966,371.688,1027.881,359.876,1032.838,353.97L1037.796,348.064"></path></g><g class="edgeLabels"><g transform="translate(251.3046875, 246)" class="edgeLabel"><g transform="translate(-47.6953125, -12)" class="label"><foreignobject height="24" width="95.390625">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+submits tasks
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(547.640625, 70)" class="edgeLabel"><g transform="translate(-51.296875, -12)" class="label"><foreignobject height="24" width="102.59375">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+runs tasks N=1
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(547.640625, 174)" class="edgeLabel"><g transform="translate(-35.390625, -12)" class="label"><foreignobject height="24" width="70.78125">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+runs tasks
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(547.640625, 318)" class="edgeLabel"><g transform="translate(-35.390625, -12)" class="label"><foreignobject height="24" width="70.78125">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+runs tasks
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(547.640625, 422)" class="edgeLabel"><g transform="translate(-35.390625, -12)" class="label"><foreignobject height="24" width="70.78125">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel">
+<p>
+runs tasks
+</p>
+</span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g><g class="edgeLabel"><g transform="translate(0, 0)" class="label"><foreignobject height="0" width="0">
+<div class="labelBkg" style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="edgeLabel"></span>
+</div>
+</foreignobject></g></g></g><g class="nodes"><g transform="translate(93.3046875, 339)" id="flowchart-A-0" class="node default"><rect height="54" width="120.609375" y="-27" x="-60.3046875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-30.3046875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="60.609375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+web app
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(774.8359375, 70)" id="flowchart-E-1" class="node default"><rect height="54" width="221.984375" y="-27" x="-110.9921875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-80.9921875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="161.984375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+PACS download worker
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(774.8359375, 174)" id="flowchart-F-2" class="node default"><rect height="54" width="251.796875" y="-27" x="-125.8984375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-95.8984375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="191.796875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Image pre-process workers
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(397.671875, 246)" id="flowchart-B-4" class="node default"><rect height="54" width="97.34375" y="-27" x="-48.671875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-18.671875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="37.34375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Redis
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(774.8359375, 318)" id="flowchart-C-10" class="node default"><rect height="54" width="220.921875" y="-27" x="-110.4609375" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-80.4609375, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="160.921875">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+REDCap query workers
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(774.8359375, 422)" id="flowchart-D-12" class="node default"><rect height="54" width="227.9375" y="-27" x="-113.96875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-83.96875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="167.9375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+Compute score workers
+</p>
+</span>
+</div>
+</foreignobject></g></g><g transform="translate(1063.03125, 318)" id="flowchart-G-13" class="node default"><rect height="54" width="124.59375" y="-27" x="-62.296875" data-et="node" data-id="abc" style="" class="basic label-container"></rect><g transform="translate(-32.296875, -12)" style="" class="label"><rect></rect><foreignobject height="24" width="64.59375">
+<div style="display: table-cell; white-space: nowrap; line-height: 1.5; max-width: 200px; text-align: center;" data-xmlns="http://www.w3.org/1999/xhtml">
+<span class="nodeLabel">
+<p>
+database
+</p>
+</span>
+</div>
+</foreignobject></g></g></g></g></g>
+</svg>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="images/camb_logo_transparent.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="presentation_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="presentation_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="presentation_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        // For code content inside modals, clipBoardJS needs to be initialized with a container option
+        // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
