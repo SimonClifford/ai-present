@@ -3,7 +3,7 @@ title: "An AI tool for Dementia"
 #subtitle: "It's containers all the way down"
 author: "Simon Clifford"
 institute: "University of Cambridge"
-date: "2024-10-24"
+date: "2025-02-11"
 date-format: "Do MMMM YYYY"
 format:
   revealjs: 
@@ -106,11 +106,17 @@ a Matlab library for analysing brain images.
 1. Processes run in containers, cannot interact with processes, filesystems, or
 networks in other containers or on the host unless explicitly permitted.
 1. Containers are built to be fully configured and ready to run.
+1. Obviously requiring root permissions to start is a problem on HPC.  Processes
+run as root on the host, but are confined by the container system.  If a user
+can _start_ a container on the system they can likely break out of the
+container.
+1. This is how Docker does it, other systems are different (e.g. Singularity).
 :::
 
 ::: {.incremental}
 - Docker: platform for building, shipping, and running applications.
-- _Containers_: more lightweight that virtualisation.
+- _Containers_: more lightweight than virtualisation.
+- Require **root** privileges to manage.
 :::
 
 ::: {.fragment .fade-in}
@@ -234,6 +240,7 @@ thing called the cloud.
 
 ## Flask
 ::: notes
+0. skip?
 1. My favourite!
 1. Flask doesn't require any particular database or structure.
 1. Instead you add extensions for those things.
@@ -292,6 +299,7 @@ admin.view_logs           GET        /view_logs
 static                    GET        /static/<path:filename>
 ```
 ::: notes
+0. skip?
 1. There's a login page that sets a local cookie once authenticated.  Handled by
 a Flask extension, Flask-login.  All other routes are marked as "for logged in
 users only".
@@ -371,6 +379,7 @@ A-.->C[(REDCap server)]
 ## SQLAlchemy^1^
 
 ::: notes
+0. skip?
 1. SQLAlchemy is a Python SQL toolkit and Object Relational Manager.
 1. Captures the description of each table in the DB in _Python_ code.
 6. Only store the schema in one place.
@@ -434,6 +443,7 @@ class Request(db.Model):
 ## SQLAlchemy
 
 ::: notes
+0. skip?
 1. There's also a Flask-SQLAlchemy extension.
 :::
 
@@ -501,7 +511,7 @@ A-.->C[(REDCap server)]
 1. The web infra that we may or may not be installing into may already have TLS (i.e. we're
 a part of an existing website).
 1. So this needs to be optional: a reverse proxy that handles TLS and isn't missed if it's not there.
-1. Easily done in nginx.
+1. Easily done in nginx or caddy.
 :::
 ::: {.incremental}
 - Web Services Gateway Interface.
@@ -732,3 +742,7 @@ graph LR
         D-->G
     end
 ```
+
+## Server
+This collection of containers runs on a VM in Arcus, for which I am very
+grateful.
