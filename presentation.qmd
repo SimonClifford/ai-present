@@ -54,17 +54,10 @@ B --> C[ML Model]
 D[Cognitive Scores] --> C
 ```
 
-## The XNAT prototype
+## The prototype
 ::: {.notes}
-Inherited the project from an earlier incarnation developed by Piero and Matt.
-
-XNAT is a research platform for importing and processing image data.  However, it's not generally deployed in clinical settings.
-:::
-![XNAT prototype, Coronica & Archer](images/Compute-output.jpeg)
-
-## Structure of the prototype
-::: {.notes}
-The code has various scripts that fire on particular XNAT triggers to perform the
+1. Inherited the project from an earlier incarnation developed by Piero and Matt.
+2. The code has various scripts that fire on particular XNAT triggers to perform the
 algorithm.
 
 REDCap is a "secure web application for building online surveys and databases".
@@ -105,7 +98,6 @@ a Matlab library for analysing brain images.
 1. OK, going to be talking about Docker a lot, so what is it?
 1. Processes run in containers, cannot interact with processes, filesystems, or
 networks in other containers or on the host unless explicitly permitted.
-1. Containers are built to be fully configured and ready to run.
 1. Obviously requiring root permissions to start is a problem on HPC.  Processes
 run as root on the host, but are confined by the container system.  If a user
 can _start_ a container on the system they can likely break out of the
@@ -116,7 +108,7 @@ container.
 ::: {.incremental}
 - Docker: platform for building, shipping, and running applications.
 - _Containers_: more lightweight than virtualisation.
-- Require **root** privileges to manage.
+- Requires **root** privileges to manage.
 :::
 
 ::: {.fragment .fade-in}
@@ -143,10 +135,10 @@ ENTRYPOINT ["/opt/start-ai_dementia_app.sh"]
 1: https://www.docker.com/
 :::
 
-## Images
+## Medical Images
 ::: notes
-1. Prototype was handed images
-1. We need to get them in a hospital setting.
+1. Prototype was handed images directly.
+1. We need to get them while in a hospital setting.
 1. Needs to download image data from a Picture Archiving and Communication
 Service (PACS).
 1. DICOM (Digital Imaging and Communications in Medicine) started in the mid-_80's_.
@@ -163,33 +155,11 @@ Service (PACS).
     - _Really_ comprehensive metadata.
 :::
 
-## Images
+## Medical Images
 ::: notes
 1. Note the Patient "Genetic Modifications Sequence" and "Species" information.
 :::
 ![](images/dicom_example.png)
-
-## Images
-
-::: notes
-1. We need for a user to be able to query a PACS for patient info, scan details,
-and finally download data.
-2. The prototype works on NIfTI images.  A format commonly used to store MRI
-brain imaging data, popular with researchers, less so with clinicians.
-3. The segmentation uses standard SPM12 functions to leave only grey matter.
-:::
-::: {.incremental}
-- Use Pynetdicom^1^ to search for and download images.
-- Use several tools to convert to NIfTI^2^ format.
-- Use existing SPM12 container to segment into grey matter image.
-  - Note this segmentation is _slow_!
-:::
-
-::: footer
-1: https://pydicom.github.io/pynetdicom/stable/
-
-2: Neuroimaging Informatics Technology Initiative: https://nifti.nimh.nih.gov/
-:::
 
 ## Building upon the prototype {.smaller}
 ::: {.notes}
@@ -236,42 +206,6 @@ thing called the cloud.
 2. Established network protocol, security available.
 3. [[Can install it into the existing hospital web infra.]{.fragment .strike}]{.fragment .semi-fade-out}
 4. I've written web apps before.
-:::
-
-## Flask
-::: notes
-0. skip?
-1. My favourite!
-1. Flask doesn't require any particular database or structure.
-1. Instead you add extensions for those things.
-1. In the example explain this is the entire application. The decorator
-registers the `hello_world` function to the `"/"` route.
-1. When a request comes in on that route the function is run and its return
-value sent back to the client.
-1. Usually have Jinja templates (unless designing an API) which can do
-Python-like logic.
-:::
-Flask^1^ is a lightweight and extendable web microframework.  
-
-::: {.fragment .fade-in}
-A (very) minimal application is:
-```{.python}
-from flask import Flask, render_template
-
-app = Flask(__name__)
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-@app.route('/hello/')
-@app.route('/hello/<name>')
-def hello(name=None):
-    return render_template('hello.html', person=name)
-```
-:::
-::: footer
-1: https://flask.palletsprojects.com/
 :::
 
 ## Flask App
@@ -376,86 +310,6 @@ A-->D[PostgreSQL server]
 B-->D
 A-.->C[(REDCap server)]
 ```
-## SQLAlchemy^1^
-
-::: notes
-0. skip?
-1. SQLAlchemy is a Python SQL toolkit and Object Relational Manager.
-1. Captures the description of each table in the DB in _Python_ code.
-6. Only store the schema in one place.
-2. Can automatically create the entire DB.  Extensions to migrate between versions.
-3. Provides Pythonic way to address database joins.
-4. So in example shown, each Request references a single User by its `id` (line 15).
-5. By declaring a `relationship` (line 16) we can reference the User object that
-the request is owned by directly.  We also use `back_populates` to get a list of
-Requests that each User owns.  All accessing the database is lazy.
-:::
-
-::: {.fragment .fade-in}
-```python
-class User(UserMixin, db.Model):
-    
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(length=64), unique=True, index=True,
-                         nullable=False)
-    # as per https://www.rfc-editor.org/errata_search.php?rfc=3696&eid=1690
-    email = db.Column(db.String(length=254))                     
-    password_hash = db.Column(db.String(length=128), nullable=False)
-    is_admin = db.Column(db.Boolean, nullable=False, default=False)
-    requests = relationship('Request')
-
-class Request(db.Model):
-
-    id = db.Column(db.Integer, primary_key=True)  # internal ID
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = relationship('User', back_populates='requests')
-    series_instance_uid = db.Column(db.String(length=64),
-                                    nullable=False)  # UI
-    patient_id = db.Column(db.Text, ForeignKey('patient.patient_id'),
-                           nullable=False)  # LO
-    patient = relationship('Patient')
-    study_description = db.Column(db.Text)  # LO
-    study_date = db.Column(db.Date)  # DA
-    series_description = db.Column(db.Text)  # LO
-    series_date = db.Column(db.Date)  # DA
-    series_description = db.Column(db.Text)  # LO
-    mr_scan_path = db.Column(db.Text)
-    mr_scan_path_nifti = db.Column(db.Text)
-    gm_scan_path = db.Column(db.Text)
-    # will fix but currently scores parsed as
-    # comma sep list by scripts
-    score_data = db.Column(db.Text)
-    # result_data stores JSON encoded result data.
-    result_data = db.Column(db.Text, default='{}')
-    request_date = db.Column(db.DateTime, server_default=func.now())
-    result_date = db.Column(db.DateTime)
-    # Choose 40 chars because we might use git commit SHAs as version
-    # markers one day?
-    result_version = db.Column(db.String(40))
-    task_id = db.Column(db.String(36))
-```
-:::
-
-::: footer
-1: https://www.sqlalchemy.org/
-:::
-
-## SQLAlchemy
-
-::: notes
-0. skip?
-1. There's also a Flask-SQLAlchemy extension.
-:::
-
-```python
->>> simon = User.query.get(1)
->>> simon.username
-'simon'
->>> simon.password_hash
-'pbkdf2:sha256:600000$P950Nsh7qgGMblJB$8b247bac3ff808890f3bf4e316fdfa77ab03d749c534f6227d6dc6676275b60c'
->>> simon.requests
-[<Request 4>, <Request 5>, <Request 6>]
-```
 
 ## The segmentation process
 ::: {.notes}
@@ -476,7 +330,7 @@ them.
 - Segmentation is quite slow.
 - A web request is expected to finish quickly.
 - Need asynchronous task management.
-- Celery^1^!.
+- Celery^1^!
   - But celery needs a broker.
   - Redis^2^.
   - _Where can we run Redis?_
@@ -516,13 +370,14 @@ a part of an existing website).
 ::: {.incremental}
 - Web Services Gateway Interface.
 - Host may already do this.
-- Use nginx^1^.
+- Use nginx^1^ or caddy^2^.
 - Where can it go?
    - WHERE CAN IT GO, SIMON?
 :::
 
 ::: footer
 1: https://nginx.org/
+2: https://caddyserver.com/
 :::
 
 ## Con Tainer?
@@ -743,6 +598,162 @@ graph LR
     end
 ```
 
-## Server
+## Docker Pros and Cons
+::: {.notes}
+1. Can run in Windows, using WSL.
+:::
+::: {.incremental}
+- Adds or removes complexity, depending on POV.
+- Adds potential for mother of all supply side attacks.
+  - But we can choose when to update containers.
+  - And we can audit them.
+- Fairly good OS independence.
+:::
+
+## Thanks
 This collection of containers runs on a VM in Arcus, for which I am very
 grateful.
+
+Questions?
+
+## The XNAT prototype
+::: {.notes}
+Inherited the project from an earlier incarnation developed by Piero and Matt.
+
+XNAT is a research platform for importing and processing image data.  However, it's not generally deployed in clinical settings.
+:::
+![XNAT prototype, Coronica & Archer](images/Compute-output.jpeg)
+
+## Images
+
+::: notes
+1. We need for a user to be able to query a PACS for patient info, scan details,
+and finally download data.
+2. The prototype works on NIfTI images.  A format commonly used to store MRI
+brain imaging data, popular with researchers, less so with clinicians.
+3. The segmentation uses standard SPM12 functions to leave only grey matter.
+:::
+- Use Pynetdicom^1^ to search for and download images.
+- Use several tools to convert to NIfTI^2^ format.
+- Use existing SPM12 container to segment into grey matter image.
+  - Note this segmentation is _slow_!
+
+::: footer
+1: https://pydicom.github.io/pynetdicom/stable/
+
+2: Neuroimaging Informatics Technology Initiative: https://nifti.nimh.nih.gov/
+:::
+
+## Flask
+::: notes
+1. My favourite!
+1. Flask doesn't require any particular database or structure.
+1. Instead you add extensions for those things.
+1. In the example explain this is the entire application. The decorator
+registers the `hello_world` function to the `"/"` route.
+1. When a request comes in on that route the function is run and its return
+value sent back to the client.
+1. Usually have Jinja templates (unless designing an API) which can do
+Python-like logic.
+:::
+Flask^1^ is a lightweight and extendable web microframework.  
+
+::: {.fragment .fade-in}
+A (very) minimal application is:
+```{.python}
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+
+@app.route('/hello/')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello.html', person=name)
+```
+:::
+::: footer
+1: https://flask.palletsprojects.com/
+:::
+
+## SQLAlchemy^1^
+
+::: notes
+1. SQLAlchemy is a Python SQL toolkit and Object Relational Manager.
+1. Captures the description of each table in the DB in _Python_ code.
+6. Only store the schema in one place.
+2. Can automatically create the entire DB.  Extensions to migrate between versions.
+3. Provides Pythonic way to address database joins.
+4. So in example shown, each Request references a single User by its `id` (line 15).
+5. By declaring a `relationship` (line 16) we can reference the User object that
+the request is owned by directly.  We also use `back_populates` to get a list of
+Requests that each User owns.  All accessing the database is lazy.
+:::
+
+::: {.fragment .fade-in}
+```python
+class User(UserMixin, db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(length=64), unique=True, index=True,
+                         nullable=False)
+    # as per https://www.rfc-editor.org/errata_search.php?rfc=3696&eid=1690
+    email = db.Column(db.String(length=254))                     
+    password_hash = db.Column(db.String(length=128), nullable=False)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    requests = relationship('Request')
+
+class Request(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)  # internal ID
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = relationship('User', back_populates='requests')
+    series_instance_uid = db.Column(db.String(length=64),
+                                    nullable=False)  # UI
+    patient_id = db.Column(db.Text, ForeignKey('patient.patient_id'),
+                           nullable=False)  # LO
+    patient = relationship('Patient')
+    study_description = db.Column(db.Text)  # LO
+    study_date = db.Column(db.Date)  # DA
+    series_description = db.Column(db.Text)  # LO
+    series_date = db.Column(db.Date)  # DA
+    series_description = db.Column(db.Text)  # LO
+    mr_scan_path = db.Column(db.Text)
+    mr_scan_path_nifti = db.Column(db.Text)
+    gm_scan_path = db.Column(db.Text)
+    # will fix but currently scores parsed as
+    # comma sep list by scripts
+    score_data = db.Column(db.Text)
+    # result_data stores JSON encoded result data.
+    result_data = db.Column(db.Text, default='{}')
+    request_date = db.Column(db.DateTime, server_default=func.now())
+    result_date = db.Column(db.DateTime)
+    # Choose 40 chars because we might use git commit SHAs as version
+    # markers one day?
+    result_version = db.Column(db.String(40))
+    task_id = db.Column(db.String(36))
+```
+:::
+
+::: footer
+1: https://www.sqlalchemy.org/
+:::
+
+## SQLAlchemy
+
+::: notes
+1. There's also a Flask-SQLAlchemy extension.
+:::
+
+```python
+>>> simon = User.query.get(1)
+>>> simon.username
+'simon'
+>>> simon.password_hash
+'pbkdf2:sha256:600000$P950Nsh7qgGMblJB$8b247bac3ff808890f3bf4e316fdfa77ab03d749c534f6227d6dc6676275b60c'
+>>> simon.requests
+[<Request 4>, <Request 5>, <Request 6>]
+```
